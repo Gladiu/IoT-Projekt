@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "DesktopInterface/1.0.0": {
+        "dependencies": {
+          "DataTypes": "1.0.0"
+        },
+        "runtime": {
+          "DesktopInterface.dll": {}
+        }
+      },
+      "DataTypes/1.0.0": {
+        "runtime": {
+          "DataTypes.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DesktopInterface/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DataTypes/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

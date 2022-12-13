@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DesktopInterface.Control;
 using System.Collections.ObjectModel;
-using DesktopInterface.ViewModel;
+using DesktopInterface.ViewModels;
 
 namespace DesktopInterface
 {
@@ -24,30 +24,31 @@ namespace DesktopInterface
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DataGridViewModel model;
         public MainWindow()
         {
             InitializeComponent();
             ApiHelper.InitializeClient();
-            
         }
 
         private async Task LoadTemperatureData()
         {
             var temperature = await SenseHatDataProcessor.LoadTemperatureData();
-            temperatureLabel.Content = $"Name: {temperature.name}, Unit: {temperature.defaultUnit}, Value: {temperature.value}";
+            if (temperature != null)
+                temperatureLabel.Content = $"Name: {temperature.name}, Unit: {temperature.defaultUnit}, Value: {temperature.value}";
         }
 
         private async Task LoadHumidityData()
         {
             var humidity = await SenseHatDataProcessor.LoadHumidityData();
-            humidityLabel.Content = $"Name: {humidity.name}, Unit: {humidity.defaultUnit}, Value: {humidity.value}";
+            if (humidity != null)
+                humidityLabel.Content = $"Name: {humidity.name}, Unit: {humidity.defaultUnit}, Value: {humidity.value}";
         }
 
         private async Task LoadData()
         {
             var data = await SenseHatDataProcessor.LoadData();
-            dataGrid.ItemsSource = data;
+            if (data != null)
+                dataGrid.ItemsSource = data;
         }
 
         private async void WindowLoaded(object sender, RoutedEventArgs e)

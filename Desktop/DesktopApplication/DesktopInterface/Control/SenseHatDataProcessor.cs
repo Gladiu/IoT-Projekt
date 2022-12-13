@@ -15,33 +15,47 @@ namespace DesktopInterface.Control
         public static async Task<DataStruct> LoadTemperatureData() 
         {
             string url = "http://localhost/temperature.json";
-            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
+            try
             {
-                if (response.IsSuccessStatusCode) 
+                using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
                 {
-                    DataStruct dataStruct = await response.Content?.ReadFromJsonAsync<DataStruct>();
-                    return dataStruct;
-                } 
-                else 
-                {
-                    throw new Exception(response.ReasonPhrase);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        DataStruct dataStruct = await response.Content.ReadFromJsonAsync<DataStruct>();
+                        return dataStruct;
+                    }
+                    else
+                    {
+                        throw new Exception(response.ReasonPhrase);
+                    }
                 }
+            }
+            catch (Exception e) 
+            {
+                throw e;
             }
         }
         public static async Task<DataStruct> LoadHumidityData()
         {
             string url = "http://localhost/humidity.json";
-            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
+            try
             {
-                if (response.IsSuccessStatusCode)
+                using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
                 {
-                    DataStruct dataStruct = await response.Content?.ReadFromJsonAsync<DataStruct>();
-                    return dataStruct;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        DataStruct dataStruct = await response.Content.ReadFromJsonAsync<DataStruct>();
+                        return dataStruct;
+                    }
+                    else
+                    {
+                        throw new Exception(response.ReasonPhrase);
+                    }
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
 

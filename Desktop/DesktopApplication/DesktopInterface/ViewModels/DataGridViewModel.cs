@@ -19,7 +19,6 @@ namespace DesktopInterface.ViewModels
     public class DataGridViewModel : Screen
     {
         private string _header = "Datasets downloaded from sensehat";
-        private ICommand _loadDataCommand;
         private BindableCollection<DataStruct> _dataStructs = new BindableCollection<DataStruct>();
         public DataGridViewModel()
         {

@@ -25,7 +25,7 @@ namespace DesktopInterface.Views
     /// <summary>
     /// Interaction logic for DataGridView.xaml
     /// </summary>
-    public partial class DataGridView : Window
+    public partial class DataGridView : UserControl
     {
         public DataGridView()
         {

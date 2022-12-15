@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\Uczelnia\SEM7\IOT\lab\Projekt\IoT-Projekt\Desktop\DesktopApplication\DesktopInterface\App.xaml
-21694423187
+4-71674488
 
-10-403471688
-205-1663576557
-MainWindow.xaml;Views\DataGridView.xaml;
+15-1161096392
+207-929919516
+Views\ChartView.xaml;Views\DataGridView.xaml;Views\EntryView.xaml;Views\WindowView.xaml;
 
 True
 

@@ -7,15 +7,30 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\ChartView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\DataGridView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\EntryView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\WindowView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="MainWindow.xaml">
+    <Page Update="Views\ChartView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\EntryView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\DataGridView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\WindowView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

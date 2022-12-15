@@ -10,16 +10,16 @@ using System.Windows;
 
 namespace DesktopInterface
 {
-    public class Bootstraper : BootstrapperBase
+    public class Bootstrapper : BootstrapperBase
     {
-        public Bootstraper()
+        public Bootstrapper()
         {
             Initialize();
         }
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             ApiHelper.InitializeClient();
-            DisplayRootViewForAsync<DataGridViewModel>();
+            DisplayRootViewForAsync<WindowViewModel>();
         }
     }
 }

@@ -77,7 +77,7 @@ namespace DesktopInterface.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/DesktopInterface;V1.0.0.0;component/views/datagridview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/DesktopInterface;component/views/datagridview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\DataGridView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

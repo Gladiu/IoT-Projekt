@@ -50,7 +50,7 @@ namespace DesktopInterface.ViewModels
 
         public void LoadData() 
         {
-            SenseHatDataProcessor.LoadData().ContinueWith(task =>
+            ApiHelper.GetDataStructsList("data_list.json").ContinueWith(task =>
             {
                 if (task.Exception == null)
                 {

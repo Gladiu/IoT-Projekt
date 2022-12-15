@@ -64,7 +64,9 @@ namespace DesktopInterface.Control
 
         public static async Task<List<DataStruct>> LoadData()
         {
-            string url = "http://localhost/data_list.json";
+            string getUrl = "data_list.json";
+            List<DataStruct> result =  await ApiHelper.GetDataStructsList(getUrl);
+            var result2 = await ApiHelper.Put("apiPut", result);
             //using (HttpClient client = new HttpClient()) 
             //{
             //    HttpResponseMessage response = await client.GetAsync(url);
@@ -73,18 +75,7 @@ namespace DesktopInterface.Control
             //    List<DataStruct> dataStructs = JsonConvert.DeserializeObject<List<DataStruct>>(jsonResponse);
             //    return dataStructs;
             //}
-            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                    List<DataStruct> dataStructs = await response.Content?.ReadFromJsonAsync<List<DataStruct>>();
-                    return dataStructs;
-                }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
-            }
+            return result;
         }
     }
 }

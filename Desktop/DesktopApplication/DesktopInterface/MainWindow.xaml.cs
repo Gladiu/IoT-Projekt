@@ -27,7 +27,6 @@ namespace DesktopInterface
         public MainWindow()
         {
             InitializeComponent();
-            ApiHelper.InitializeClient();
         }
 
         private async Task LoadTemperatureData()

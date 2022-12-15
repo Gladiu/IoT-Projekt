@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using DataTypes;
 using DesktopInterface.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,8 @@ namespace DesktopInterface
         }
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
+            ApiHelper.InitializeClient();
             DisplayRootViewForAsync<DataGridViewModel>();
-            //DisplayRootViewFor<TableOfContentsViewModel>();
         }
     }
 }

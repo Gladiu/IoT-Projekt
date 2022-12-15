@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "hWfa9AcSAciSYrDiw5v6+y3TumbdhNkEQADEAjp3Wg48FMsy9b+c6H6qto92qn+jWH1LdGiqL0HTsdOpFoWGRA==",
+  "dgSpecHash": "0vasAbH6UGxCJ9fKcnGvxwgV4fAhul5AFH+2E6HTdWP+YrO7DHnHfM86vXvwr34Dyaj4CGkjPJhMGLnhFMNlwg==",
   "success": true,
   "projectFilePath": "D:\\Uczelnia\\SEM7\\IOT\\lab\\Projekt\\IoT-Projekt\\Desktop\\DesktopApplication\\DataTypes\\DataTypes.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\User\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
+  ],
   "logs": []
 }

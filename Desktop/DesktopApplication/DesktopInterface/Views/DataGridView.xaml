@@ -26,12 +26,12 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="Header" Grid.Row="1" Grid.Column="1" FontSize="18">Testing</TextBlock>
-        <Button x:Name="Button" Grid.Row="2" Grid.Column="1" FontSize="18" Click="Button_Click">DownloadData</Button>
-        <DataGrid x:Name="DataGrid" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="3">
+        <Button x:Name="LoadData" Grid.Row="2" Grid.Column="1" FontSize="18" >DownloadData</Button>
+        <DataGrid x:Name="DataStructs" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <!--<DataGrid.Columns>
-                <DataGridTextColumn Header="Name"  Binding="{Binding name}"/>
-                <DataGridTextColumn Header="Unit" Binding="{Binding defaultUnit}" />
-                <DataGridTextColumn Header="Value" Binding="{Binding value}" />
+                <DataGridTextColumn Header="name"  Binding="{Binding name}"/>
+                <DataGridTextColumn Header="unit" Binding="{Binding defaultUnit}" />
+                <DataGridTextColumn Header="value" Binding="{Binding value}" />
             </DataGrid.Columns>-->
         </DataGrid>
     </Grid>

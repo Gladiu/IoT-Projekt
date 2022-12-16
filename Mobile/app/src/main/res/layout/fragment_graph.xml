@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ap="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Graph">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/cyclicTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="152dp"
+                    android:capitalize="none"
+                    android:hint="Update Time in ms"
+                    ap:layout_constraintBottom_toTopOf="@+id/cycleApplyButton"
+                    ap:layout_constraintEnd_toEndOf="parent"
+                    ap:layout_constraintHorizontal_bias="0.0"
+                    ap:layout_constraintStart_toStartOf="parent"
+                    ap:layout_constraintTop_toBottomOf="@+id/graph"
+                    ap:layout_constraintVertical_bias="1.0" />
+
+                <com.jjoe64.graphview.GraphView
+                    android:id="@+id/graph"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dip"
+                    android:layout_marginTop="44dp"
+                    ap:layout_constraintStart_toStartOf="parent"
+                    ap:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/cycleApplyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="96dp"
+                    android:text="Apply"
+                    ap:layout_constraintBottom_toBottomOf="parent"
+                    ap:layout_constraintEnd_toEndOf="parent"
+                    ap:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="67dp"
+                    android:layout_height="25dp"
+                    android:text="TextView"
+                    tools:layout_editor_absoluteX="168dp"
+                    tools:layout_editor_absoluteY="500dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

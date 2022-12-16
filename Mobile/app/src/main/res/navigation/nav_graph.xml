@@ -3,20 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/welcomeFragment">
+    app:startDestination="@id/menu">
 
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.mobile.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
     <fragment
-        android:id="@+id/welcomeFragment"
-        android:name="com.example.mobile.WelcomeFragment"
-        android:label="fragment_welcome"
-        tools:layout="@layout/fragment_welcome" >
+        android:id="@+id/menu"
+        android:name="com.example.lab7.menu"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" >
         <action
-            android:id="@+id/action_welcomeFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
+            android:id="@+id/action_menu_to_graph"
+            app:destination="@id/graph" />
+        <action
+            android:id="@+id/action_menu_to_LEDFragment"
+            app:destination="@id/LEDFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/graph"
+        android:name="com.example.lab7.Graph"
+        android:label="fragment_graph"
+        tools:layout="@layout/fragment_graph" >
+        <action
+            android:id="@+id/action_graph_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/LEDFragment"
+        android:name="com.example.lab7.LEDFragment"
+        android:label="fragment_led"
+        tools:layout="@layout/fragment_led" >
+        <action
+            android:id="@+id/action_LEDFragment_to_menu"
+            app:destination="@id/menu" />
     </fragment>
 </navigation>

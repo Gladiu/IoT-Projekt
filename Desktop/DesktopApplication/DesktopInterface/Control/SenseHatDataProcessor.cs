@@ -67,14 +67,6 @@ namespace DesktopInterface.Control
             string getUrl = "data_list.json";
             List<DataStruct> result =  await ApiHelper.GetDataStructsList(getUrl);
             var result2 = await ApiHelper.Put("apiPut", result);
-            //using (HttpClient client = new HttpClient()) 
-            //{
-            //    HttpResponseMessage response = await client.GetAsync(url);
-            //    string jsonResponse = await response.Content.ReadAsStringAsync();
-
-            //    List<DataStruct> dataStructs = JsonConvert.DeserializeObject<List<DataStruct>>(jsonResponse);
-            //    return dataStructs;
-            //}
             return result;
         }
     }

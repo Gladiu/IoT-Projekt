@@ -1,12 +1,18 @@
-﻿using System;
+﻿using DataTypes;
+using DesktopInterface.Models;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Security.Policy;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DataTypes
+namespace DesktopInterface.Control
 {
     public static class ApiHelper
     {
@@ -51,8 +57,34 @@ namespace DataTypes
                 {
                     if (response.IsSuccessStatusCode)
                     {
+                        var dat = await response.Content.ReadAsStringAsync();
                         List<DataStruct> dataStructs = await response.Content.ReadFromJsonAsync<List<DataStruct>>();
                         return dataStructs;
+                    }
+                    else
+                    {
+                        throw new Exception(response.ReasonPhrase);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public static async Task<List<DataObject>> GetDataObjectsList(string getRequest)
+        {
+            string url = $"{baseUrl}/{getRequest}";
+            try
+            {
+                using (HttpResponseMessage response = await ApiClient.GetAsync(url))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var dat = await response.Content.ReadAsStringAsync();
+                        List<DataObject> dataObjects = JsonSerializer.Deserialize<List<DataObject>>(dat);
+                        //List<DataObject> dataObjects = await response.Content.ReadFromJsonAsync<List<DataObject>>();
+                        return dataObjects;
                     }
                     else
                     {
@@ -133,6 +165,35 @@ namespace DataTypes
             {
                 throw e;
             }
+        }
+        public static async Task<string> PostControlRequest(List<KeyValuePair<string, string>> data)
+        {
+            string responseText = null;
+
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string url = $"{baseUrl}/post/led_display.php";
+                    var requestData = new FormUrlEncodedContent(data);
+                    // Sent POST request
+                    var result = await client.PostAsync(url, requestData);
+                    // Read response content
+                    responseText = await result.Content.ReadAsStringAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("NETWORK ERROR");
+                Debug.WriteLine(e);
+            }
+
+            return responseText;
+        }
+
+        public static void UpdateApiClient() 
+        {
+            baseUrl = ApplicationConfiguration.IpAdress;
         }
     }
 }

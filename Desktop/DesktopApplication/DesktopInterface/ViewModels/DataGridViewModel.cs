@@ -18,10 +18,14 @@ namespace DesktopInterface.ViewModels
 {
     public class DataGridViewModel : Screen
     {
+        private float _samplingTime;
+        private DispatcherTimer _timer;
         private string _header = "Datasets downloaded from sensehat";
         private BindableCollection<DataStruct> _dataStructs = new BindableCollection<DataStruct>();
         public DataGridViewModel()
         {
+            _timer = new DispatcherTimer();
+            _samplingTime = ApplicationConfiguration.SamplingTime;
             DispatchTimer();
         }
         public string Header
@@ -47,7 +51,7 @@ namespace DesktopInterface.ViewModels
             }
         }
 
-        public void LoadData() 
+        private void LoadData() 
         {
             ApiHelper.GetDataStructsList("data_list.json").ContinueWith(task =>
             {
@@ -60,10 +64,10 @@ namespace DesktopInterface.ViewModels
         }
         private void DispatchTimer() 
         {
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(UpdateTimer_Tick);
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
+            _timer.Tick += new EventHandler(UpdateTimer_Tick);
+            int interval = (int)_samplingTime;
+            _timer.Interval = new TimeSpan(0, 0, 0, 0, interval);
+            _timer.Start();
         }
 
         private void UpdateTimer_Tick(object sender, EventArgs e) 

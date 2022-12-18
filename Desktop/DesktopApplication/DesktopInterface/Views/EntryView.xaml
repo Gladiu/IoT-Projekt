@@ -13,14 +13,45 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-            
+        <!--ROW 1-->
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,5,0">Selected IP:</TextBlock>
+        <TextBox x:Name="Url" Grid.Row="1" Grid.Column="2"/>
+
+        <Button x:Name="SaveSettings" Grid.Row="1" Grid.Column="5">Save Settings</Button>
+        
+        <!--ROW 2-->
+        <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,0,5,0">Selected IP:</TextBlock>
+        <TextBox x:Name="Ip" Grid.Row="2" Grid.Column="2"/>
+
+        <Button x:Name="LoadSettings" Grid.Row="2" Grid.Column="5">Load Settings</Button>
+
+        <!--ROW 3-->
+        <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,0,5,0">ApiVersion:</TextBlock>
+        <TextBox x:Name="ApiVersion" Grid.Row="3" Grid.Column="2"/>
+
+        <!--ROW 4-->
+        <TextBlock Grid.Row="4" Grid.Column="1" Margin="0,0,5,0">Sampling Time:</TextBlock>
+        <TextBox x:Name="SamplingTime" Grid.Row="4" Grid.Column="2"/>
+
+        <!--ROW 4-->
+        <TextBlock Grid.Row="5" Grid.Column="1" Margin="0,0,5,0">SamplesCount:</TextBlock>
+        <TextBox x:Name="SamplesCount" Grid.Row="5" Grid.Column="2"/>
     </Grid>
 </UserControl>

@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using DataTypes;
+using DesktopInterface.Control;
 using DesktopInterface.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace DesktopInterface
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             ApiHelper.InitializeClient();
+            ApplicationConfiguration.LoadConfiguration();
+            ApiHelper.UpdateApiClient();
             DisplayRootViewForAsync<WindowViewModel>();
         }
     }

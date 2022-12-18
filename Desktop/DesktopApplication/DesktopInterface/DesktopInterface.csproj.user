@@ -16,6 +16,9 @@
     <Compile Update="Views\EntryView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\LedControlView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\WindowView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -28,6 +31,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\DataGridView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\LedControlView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\WindowView.xaml">

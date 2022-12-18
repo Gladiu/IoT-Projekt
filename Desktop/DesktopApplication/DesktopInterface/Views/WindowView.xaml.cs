@@ -19,6 +19,7 @@ namespace DesktopInterface.Views
     /// </summary>
     public partial class WindowView : Window
     {
+        public Style LedStyle;
         public WindowView()
         {
             InitializeComponent();

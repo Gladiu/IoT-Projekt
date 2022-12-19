@@ -12,5 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <!-- Set Font -->
+        <item name="android:fontFamily">@font/times_new_roman</item>
     </style>
 </resources>

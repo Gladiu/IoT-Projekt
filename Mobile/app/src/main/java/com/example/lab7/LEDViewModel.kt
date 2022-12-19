@@ -1,5 +1,6 @@
 package com.example.lab7
 
+import com.example.lab7.LEDModel
 import android.app.ActionBar.LayoutParams
 import android.graphics.Color
 import android.os.Bundle
@@ -18,14 +19,12 @@ import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 
 
-class LEDFragmentViewModel : Fragment() {
-
-    var selectedColour: String = "#000000"
+class LEDViewModel : Fragment() {
+    val LEDModelObject:LEDModel = LEDModel()
     lateinit var colorInputText: TextInputEditText
     lateinit var colorApplyButton: Button
     lateinit var sendRequestButton:Button
 
-    var colorData: MutableList<String> = List(64) { "#000000" }.toMutableList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,36 +41,15 @@ class LEDFragmentViewModel : Fragment() {
         colorApplyButton = view.findViewById(R.id.colorApplyButton)
 
         colorApplyButton.setOnClickListener {
-            selectedColour = colorInputText.text.toString()
+            LEDModelObject.selectedColour = colorInputText.text.toString()
         }
 
         sendRequestButton = view.findViewById(R.id.sendRequestButton)
 
         sendRequestButton.setBackgroundColor(Color.GREEN)
         sendRequestButton.setOnClickListener {
-            val volleyQueue = Volley.newRequestQueue(activity)
-            val url = "https://httpbin.org/post" // TODO: Change for release
-
-            var JSONData: JSONObject = JSONObject()
-
-            JSONData.put("data", colorData)
-
-            val jsonObjectRequest = JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                JSONData,
-                {
-                        response ->
-                    Log.d("Response", response.toString())
-                    sendRequestButton.setBackgroundColor(Color.GREEN)
-
-                },
-                {
-                        error ->
-                    print("Error Occured something wrong with http request")
-                }
-            )
-            volleyQueue.add(jsonObjectRequest)
+            LEDModelObject.sendLEDRequest(this.requireActivity())
+            sendRequestButton.setBackgroundColor(Color.GREEN)
         }
 
         // Adding buttons to represent all of the LED of
@@ -91,8 +69,10 @@ class LEDFragmentViewModel : Fragment() {
                 currentLedButton.setBackgroundColor(Color.parseColor("#f0f0f0")) // grey colour
 
                 currentLedButton.setOnClickListener {
-                    currentLedButton.setBackgroundColor(Color.parseColor(selectedColour))
-                    colorData[y*8+x] = selectedColour
+                    try {
+                        currentLedButton.setBackgroundColor(Color.parseColor(LEDModelObject.selectedColour))
+                    }catch (exc: Throwable){}
+                    LEDModelObject.setColorAt(x,y)
                     sendRequestButton.setBackgroundColor(Color.RED)
                 }
 

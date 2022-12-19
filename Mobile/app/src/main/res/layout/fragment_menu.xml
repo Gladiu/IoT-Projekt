@@ -11,23 +11,49 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/buttonPlot"
+            android:id="@+id/buttonSettings"
             android:layout_width="273dp"
             android:layout_height="49dp"
             android:layout_marginTop="120dp"
-            android:text="Plots"
+            android:text="Settings"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:id="@+id/buttonPlot"
+            android:layout_width="273dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="60dp"
+            android:text="Plots"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonSettings" />
+
+        <Button
             android:id="@+id/buttonLED"
             android:layout_width="273dp"
             android:layout_height="49dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="60dp"
             android:text="LEDS"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonPlot" />
+
+        <Button
+            android:id="@+id/buttonRawData"
+            android:layout_width="273dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="60dp"
+            android:text="Raw Data"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonLED"
+            app:layout_constraintVertical_bias="0.004" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

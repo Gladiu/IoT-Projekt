@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
@@ -15,21 +14,15 @@ import com.google.android.material.textfield.TextInputEditText
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
-import kotlinx.coroutines.*
 
 
-class GraphController : Fragment() {
+class GraphViewModel : Fragment() {
+
+    val GraphModelObject: GraphModel = GraphModel()
 
     lateinit var graphTemperature: GraphView
     lateinit var graphPressure: GraphView
     lateinit var graphHumidity: GraphView
-    var currentTime = 0.0
-    var lastTime = 0.0
-    var cycleTime = 100L // TODO: Chagne name
-
-    lateinit var temperatureSeries: LineGraphSeries<DataPoint>
-    lateinit var pressureSeries: LineGraphSeries<DataPoint>
-    lateinit var humiditySeries: LineGraphSeries<DataPoint>
 
     lateinit var cycleApplyButton: Button
     lateinit var cyclicTextInput: TextInputEditText
@@ -48,19 +41,11 @@ class GraphController : Fragment() {
         graphPressure = view.findViewById(R.id.graphPressure)
         graphHumidity = view.findViewById(R.id.graphHumidity)
 
+        GraphModelObject.startTimer(this)
 
-        temperatureSeries= LineGraphSeries( arrayOf(DataPoint(0.0,0.0)))
-        pressureSeries= LineGraphSeries( arrayOf(DataPoint(0.0,0.0)))
-        humiditySeries= LineGraphSeries( arrayOf(DataPoint(0.0,0.0)))
-        temperatureSeries.title = "Temperature [C]"
-        pressureSeries.title = "Pressure [hPa]"
-        humiditySeries.title = "Humidity [%]"
-        graphTemperature.addSeries(temperatureSeries)
-        graphPressure.addSeries(pressureSeries)
-        graphHumidity.addSeries(humiditySeries)
-        temperatureSeries.color = Color.BLUE
-        pressureSeries.color = Color.GREEN
-        humiditySeries.color = Color.RED
+        graphTemperature.addSeries(GraphModelObject.temperatureSeries)
+        graphPressure.addSeries(GraphModelObject.pressureSeries)
+        graphHumidity.addSeries(GraphModelObject.humiditySeries)
 
         graphTemperature.legendRenderer.setVisible(true);
         graphPressure.legendRenderer.setVisible(true);
@@ -80,60 +65,12 @@ class GraphController : Fragment() {
         cycleApplyButton = view.findViewById(R.id.cycleApplyButton)
         cycleApplyButton.setOnClickListener {
 
-            cycleTime = cyclicTextInput.text.toString().toLong()
+            try {
+                GraphModelObject.cycleTime = cyclicTextInput.text.toString().toLong()
+            }catch (exc: Throwable){}
 
         }
 
-        val timerName = lifecycleScope.launch(Dispatchers.IO) {
-            while (isActive) {
-                lifecycleScope.launch {
-                    //doSomething()
-                        val volleyQueue = Volley.newRequestQueue(activity)
-                        val url = "http://217.182.75.146/index.php" // TODO: Change for release
-
-                        val jsonObjectRequest = JsonArrayRequest(
-                            Request.Method.GET,
-                            url,
-                            null,
-                            {
-                                    response ->
-                                if (lastTime < currentTime) {
-                                        temperatureSeries.appendData(
-                                            DataPoint(
-                                                currentTime/1000,
-                                                response.getJSONObject(1).getDouble("value")
-                                            ),
-                                            false, 10
-                                    )
-                                        pressureSeries.appendData(
-                                            DataPoint(
-                                                currentTime/1000,
-                                                response.getJSONObject(2).getDouble("value")
-                                            ),
-                                            false, 10
-                                        )
-                                        humiditySeries.appendData(
-                                            DataPoint(
-                                                currentTime/1000,
-                                                response.getJSONObject(3).getDouble("value")
-                                            ),
-                                            false, 10
-                                        )
-                                    lastTime = currentTime
-                                }
-
-                            },
-                            {
-                                error ->
-                                print("Error Occured something wrong with http request")
-                            }
-                        )
-                        volleyQueue.add(jsonObjectRequest)
-                    }
-                currentTime += cycleTime
-                delay(cycleTime)
-            }
-        }
 
         return view
 

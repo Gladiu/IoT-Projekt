@@ -16,10 +16,16 @@
         <action
             android:id="@+id/action_menu_to_LEDFragment"
             app:destination="@id/LEDFragment" />
+        <action
+            android:id="@+id/action_menu_to_rawData"
+            app:destination="@id/rawData" />
+        <action
+            android:id="@+id/action_menu_to_settingsViewModel"
+            app:destination="@id/settingsViewModel" />
     </fragment>
     <fragment
         android:id="@+id/graph"
-        android:name="com.example.lab7.Graph"
+        android:name="com.example.lab7.GraphViewModel"
         android:label="fragment_graph"
         tools:layout="@layout/fragment_graph" >
         <action
@@ -28,11 +34,29 @@
     </fragment>
     <fragment
         android:id="@+id/LEDFragment"
-        android:name="com.example.lab7.LEDFragment"
+        android:name="com.example.lab7.LEDViewModel"
         android:label="fragment_led"
         tools:layout="@layout/fragment_led" >
         <action
             android:id="@+id/action_LEDFragment_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/rawData"
+        android:name="com.example.lab7.RawDataViewModel"
+        android:label="fragment_rawdata"
+        tools:layout="@layout/fragment_raw_data" >
+        <action
+            android:id="@+id/action_rawData_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsViewModel"
+        android:name="com.example.lab7.SettingsViewModel"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsViewModel_to_menu"
             app:destination="@id/menu" />
     </fragment>
 </navigation>

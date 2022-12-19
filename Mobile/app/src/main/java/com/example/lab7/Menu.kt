@@ -29,6 +29,14 @@ class menu : Fragment() {
         buttonLED.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_menu_to_LEDFragment)
         }
+        val buttonRawData: Button = view.findViewById(R.id.buttonRawData)
+        buttonRawData.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_menu_to_rawData)
+        }
+        val buttonSettings: Button = view.findViewById(R.id.buttonSettings)
+        buttonSettings.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_menu_to_settingsViewModel)
+        }
         return view
     }
 

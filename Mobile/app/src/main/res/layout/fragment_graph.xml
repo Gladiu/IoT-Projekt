@@ -4,51 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Graph">
+    tools:context=".GraphViewModel">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/cyclicTextInput"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="152dp"
-                    android:capitalize="none"
-                    android:hint="Update Time in ms"
-                    ap:layout_constraintBottom_toTopOf="@+id/cycleApplyButton"
-                    ap:layout_constraintEnd_toEndOf="parent"
-                    ap:layout_constraintHorizontal_bias="0.0"
-                    ap:layout_constraintStart_toStartOf="parent"
-                    ap:layout_constraintTop_toBottomOf="@+id/graph"
-                    ap:layout_constraintVertical_bias="1.0" />
+                    android:orientation="vertical" >
 
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/graph"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dip"
-                    android:layout_marginTop="44dp"
-                    ap:layout_constraintStart_toStartOf="parent"
-                    ap:layout_constraintTop_toTopOf="parent" />
+                        <com.jjoe64.graphview.GraphView
+                            android:id="@+id/graphTemperature"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dip"
+                            android:layout_marginTop="44dp" />
 
-                <Button
-                    android:id="@+id/cycleApplyButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="96dp"
-                    android:text="Apply"
-                    ap:layout_constraintBottom_toBottomOf="parent"
-                    ap:layout_constraintEnd_toEndOf="parent"
-                    ap:layout_constraintStart_toStartOf="parent" />
+                        <com.jjoe64.graphview.GraphView
+                            android:id="@+id/graphPressure"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dip"
+                            android:layout_marginTop="44dp" />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="67dp"
-                    android:layout_height="25dp"
-                    android:text="TextView"
-                    tools:layout_editor_absoluteX="168dp"
-                    tools:layout_editor_absoluteY="500dp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.jjoe64.graphview.GraphView
+                            android:id="@+id/graphHumidity"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dip"
+                            android:layout_marginTop="44dp" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/cyclicTextInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="152dp"
+                            android:capitalize="none"
+                            android:hint="Update Time in ms" />
+
+                        <Button
+                            android:id="@+id/cycleApplyButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="96dp"
+                            android:textStyle="bold"
+                            android:text="Apply" />
+
+                </LinearLayout>
+        </ScrollView>
 
 </FrameLayout>

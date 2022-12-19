@@ -2,7 +2,6 @@ package com.example.lab7
 
 import android.graphics.Color
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.textfield.TextInputEditText
 import com.jjoe64.graphview.GraphView
@@ -20,9 +18,11 @@ import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.coroutines.*
 
 
-class Graph : Fragment() {
+class GraphController : Fragment() {
 
-    lateinit var graph: GraphView
+    lateinit var graphTemperature: GraphView
+    lateinit var graphPressure: GraphView
+    lateinit var graphHumidity: GraphView
     var currentTime = 0.0
     var lastTime = 0.0
     var cycleTime = 100L // TODO: Chagne name
@@ -44,7 +44,9 @@ class Graph : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_graph, container, false)
-        graph = view.findViewById(R.id.graph)
+        graphTemperature = view.findViewById(R.id.graphTemperature)
+        graphPressure = view.findViewById(R.id.graphPressure)
+        graphHumidity = view.findViewById(R.id.graphHumidity)
 
 
         temperatureSeries= LineGraphSeries( arrayOf(DataPoint(0.0,0.0)))
@@ -53,19 +55,24 @@ class Graph : Fragment() {
         temperatureSeries.title = "Temperature [C]"
         pressureSeries.title = "Pressure [hPa]"
         humiditySeries.title = "Humidity [%]"
-        graph.addSeries(temperatureSeries)
-        graph.addSeries(pressureSeries)
-        graph.addSeries(humiditySeries)
+        graphTemperature.addSeries(temperatureSeries)
+        graphPressure.addSeries(pressureSeries)
+        graphHumidity.addSeries(humiditySeries)
         temperatureSeries.color = Color.BLUE
         pressureSeries.color = Color.GREEN
         humiditySeries.color = Color.RED
 
-
-        graph.legendRenderer.setVisible(true);
+        graphTemperature.legendRenderer.setVisible(true);
+        graphPressure.legendRenderer.setVisible(true);
+        graphHumidity.legendRenderer.setVisible(true);
         // setting fix position for the title
-        graph.legendRenderer.setFixedPosition(4, 5);
-        graph.legendRenderer.setTextColor(Color.BLUE);
-        graph.legendRenderer.setTextSize(20F);
+        graphTemperature.legendRenderer.setFixedPosition(4, 5);
+        graphPressure.legendRenderer.setFixedPosition(4, 5);
+        graphHumidity.legendRenderer.setFixedPosition(4, 5);
+
+        graphTemperature.legendRenderer.setTextSize(20F);
+        graphPressure.legendRenderer.setTextSize(20F);
+        graphHumidity.legendRenderer.setTextSize(20F);
         // on below line we are adding data to our graph view.
 
         cyclicTextInput = view.findViewById(R.id.cyclicTextInput)

@@ -12,17 +12,13 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.android.volley.*
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.textfield.TextInputEditText
-import com.jjoe64.graphview.series.DataPoint
-import org.json.JSONArray
 import org.json.JSONObject
 
 
-class LEDFragment : Fragment() {
+class LEDFragmentViewModel : Fragment() {
 
     var selectedColour: String = "#000000"
     lateinit var colorInputText: TextInputEditText

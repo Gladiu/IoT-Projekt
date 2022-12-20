@@ -1,12 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using DataTypes;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 namespace DesktopInterface.Control
 {
@@ -38,7 +33,7 @@ namespace DesktopInterface.Control
             string[] lines = File.ReadAllLines("AppConfiguration.json");
             if (lines != null) 
             {
-                Config config = JsonConvert.DeserializeObject<Config>(lines[0]);
+                Config? config = JsonConvert.DeserializeObject<Config>(lines[0]);
                 if (config != null) 
                 { 
                     IpAdress = config.IpAdress;

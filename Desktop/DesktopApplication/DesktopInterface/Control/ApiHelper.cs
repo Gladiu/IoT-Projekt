@@ -3,12 +3,9 @@ using DesktopInterface.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Security.Policy;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -17,7 +14,7 @@ namespace DesktopInterface.Control
     public static class ApiHelper
     {
         public static string baseUrl = "http://localhost";
-        public static HttpClient ApiClient { get; set; }
+        public static HttpClient? ApiClient { get; set; }
         public static void InitializeClient() 
         {
             ApiClient = new HttpClient();
@@ -25,8 +22,12 @@ namespace DesktopInterface.Control
             ApiClient.DefaultRequestHeaders.Accept.Clear();
             ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-        public static async Task<DataStruct> GetDataStruct(string getRequest) 
+        public static async Task<DataStruct?> GetDataStruct(string getRequest) 
         {
+            if (ApiClient == null) 
+            {
+                return null;
+            }
             string url = $"{baseUrl}/{getRequest}";
             try
             {
@@ -34,7 +35,7 @@ namespace DesktopInterface.Control
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        DataStruct dataStruct = await response.Content.ReadFromJsonAsync<DataStruct>();
+                        DataStruct? dataStruct = await response.Content.ReadFromJsonAsync<DataStruct>();
                         return dataStruct;
                     }
                     else
@@ -45,11 +46,16 @@ namespace DesktopInterface.Control
             }
             catch (Exception e)
             {
-                throw e;
+                Console.WriteLine($"Caught exception:{e.Message}");
+                return null;
             }
         }
-        public static async Task<List<DataStruct>> GetDataStructsList(string getRequest)
+        public static async Task<List<DataStruct>?> GetDataStructsList(string getRequest)
         {
+            if (ApiClient == null) 
+            {
+                return null;
+            }
             string url = $"{baseUrl}/{getRequest}";
             try
             {
@@ -58,7 +64,7 @@ namespace DesktopInterface.Control
                     if (response.IsSuccessStatusCode)
                     {
                         var dat = await response.Content.ReadAsStringAsync();
-                        List<DataStruct> dataStructs = await response.Content.ReadFromJsonAsync<List<DataStruct>>();
+                        List<DataStruct>? dataStructs = await response.Content.ReadFromJsonAsync<List<DataStruct>>();
                         return dataStructs;
                     }
                     else
@@ -69,11 +75,16 @@ namespace DesktopInterface.Control
             }
             catch (Exception e)
             {
-                throw e;
+                Console.WriteLine($"Caught exception:{e.Message}");
+                return null;
             }
         }
-        public static async Task<List<DataObject>> GetDataObjectsList(string getRequest)
+        public static async Task<List<DataObject>?> GetDataObjectsList(string getRequest)
         {
+            if (ApiClient == null)
+            {
+                return null;
+            }
             string url = $"{baseUrl}/{getRequest}";
             try
             {
@@ -82,7 +93,7 @@ namespace DesktopInterface.Control
                     if (response.IsSuccessStatusCode)
                     {
                         var dat = await response.Content.ReadAsStringAsync();
-                        List<DataObject> dataObjects = JsonSerializer.Deserialize<List<DataObject>>(dat);
+                        List<DataObject>? dataObjects = JsonSerializer.Deserialize<List<DataObject>>(dat);
                         //List<DataObject> dataObjects = await response.Content.ReadFromJsonAsync<List<DataObject>>();
                         return dataObjects;
                     }
@@ -94,11 +105,16 @@ namespace DesktopInterface.Control
             }
             catch (Exception e)
             {
-                throw e;
+                Console.WriteLine($"Caught exception:{e.Message}");
+                return null;
             }
         }
-        public static async Task<DataStruct> Post(string postUrl, object obj)
+        public static async Task<DataStruct?> Post(string postUrl, object obj)
         {
+            if (ApiClient == null)
+            {
+                return null;
+            }
             string url = $"{baseUrl}/{postUrl}";
             try
             {
@@ -106,7 +122,7 @@ namespace DesktopInterface.Control
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        DataStruct dataStruct = await response.Content.ReadFromJsonAsync<DataStruct>();
+                        DataStruct? dataStruct = await response.Content.ReadFromJsonAsync<DataStruct>();
                         return dataStruct;
                     }
                     else
@@ -117,11 +133,16 @@ namespace DesktopInterface.Control
             }
             catch (Exception e)
             {
-                throw e;
+                Console.WriteLine($"Caught exception:{e.Message}");
+                return null;
             }
         }
-        public static async Task<DataStruct> Put(string putUrl, object obj)
+        public static async Task<DataStruct?> Put(string putUrl, object obj)
         {
+            if (ApiClient == null)
+            {
+                return null;
+            }
             string url = $"{baseUrl}/{putUrl}";
             try
             {
@@ -129,7 +150,7 @@ namespace DesktopInterface.Control
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        DataStruct dataStruct = await response.Content.ReadFromJsonAsync<DataStruct>();
+                        DataStruct? dataStruct = await response.Content.ReadFromJsonAsync<DataStruct>();
                         return dataStruct;
                     }
                     else
@@ -140,11 +161,16 @@ namespace DesktopInterface.Control
             }
             catch (Exception e)
             {
-                throw e;
+                Console.WriteLine($"Caught exception:{e.Message}");
+                return null;
             }
         }
-        public static async Task<DataStruct> Delete(string deleteUrl)
+        public static async Task<DataStruct?> Delete(string deleteUrl)
         {
+            if (ApiClient == null)
+            {
+                return null;
+            }
             string url = $"{baseUrl}/{deleteUrl}";
             try
             {
@@ -152,7 +178,7 @@ namespace DesktopInterface.Control
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        DataStruct dataStruct = await response.Content.ReadFromJsonAsync<DataStruct>();
+                        DataStruct? dataStruct = await response.Content.ReadFromJsonAsync<DataStruct>();
                         return dataStruct;
                     }
                     else
@@ -163,12 +189,13 @@ namespace DesktopInterface.Control
             }
             catch (Exception e)
             {
-                throw e;
+                Console.WriteLine($"Caught exception:{e.Message}");
+                return null;
             }
         }
-        public static async Task<string> PostControlRequest(List<KeyValuePair<string, string>> data)
+        public static async Task<string?> PostControlRequest(List<KeyValuePair<string, string>> data)
         {
-            string responseText = null;
+            string? responseText = null;
 
             try
             {
@@ -189,6 +216,35 @@ namespace DesktopInterface.Control
             }
 
             return responseText;
+        }
+
+        public static async Task<string?> PostSelectedUnits(string postUrl, List<string>? obj)
+        {
+            string url = $"{baseUrl}/{postUrl}";
+            try
+            {
+                if (ApiClient == null) 
+                {
+                    return null;
+                }
+                using (HttpResponseMessage response = await ApiClient.PostAsJsonAsync(url, obj))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string? data = await response.Content.ReadAsStringAsync();
+                        return data;
+                    }
+                    else
+                    {
+                        throw new Exception(response.ReasonPhrase);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Caught exception:{e.Message}");
+                return null;
+            }
         }
 
         public static void UpdateApiClient() 

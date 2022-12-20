@@ -28,14 +28,14 @@ namespace DesktopInterface.Control
             }
         }
 
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             return IsEnabled;
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
 
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             handler();
         }

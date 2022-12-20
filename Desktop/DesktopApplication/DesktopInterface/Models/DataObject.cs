@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DesktopInterface.Models
+﻿namespace DesktopInterface.Models
 {
     public class DataObject
     {
@@ -14,9 +8,9 @@ namespace DesktopInterface.Models
 
         public DataObject() 
         {
-            //name = "";
-            //value = 0;
-            //unit= "";
+            name = string.Empty;
+            value = 0;
+            unit = string.Empty;
         }
     }
 }

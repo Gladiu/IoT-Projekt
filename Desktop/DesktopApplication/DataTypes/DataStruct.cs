@@ -10,6 +10,11 @@
 
         public string defaultUnit { get; set; }
 
-        public DataStruct() { }
+        public DataStruct() 
+        {
+            name = string.Empty;
+            units = new List<string>();
+            defaultUnit = string.Empty;
+        }
     }
 }

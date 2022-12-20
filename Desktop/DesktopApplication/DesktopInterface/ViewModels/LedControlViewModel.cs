@@ -1,12 +1,7 @@
 ﻿using Caliburn.Micro;
 using DesktopInterface.Control;
 using DesktopInterface.Models;
-using OxyPlot;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -52,9 +47,10 @@ namespace DesktopInterface.ViewModels
 
         public LedControlViewModel() 
         {
-            _r = 255;
-            _g = 255;
-            _b = 255;
+            _r = 0;
+            _g = 0;
+            _b = 0;
+            _previewColor = new SolidColorBrush(Color.FromRgb((byte)R, (byte)G, (byte)B));
             _displaySizeX = 8;
             _displaySizeY = 8;
             _disp = new LedDisplayModel();
@@ -83,10 +79,6 @@ namespace DesktopInterface.ViewModels
             }
         }
 
-        public void ButtonPressed(int id)
-        {
-            
-        }
         public Binding GetCommandBinding(int x, int y)
         {
             return new Binding("LedCommands[" + x.ToString() + "][" + y.ToString() + "]");
@@ -114,8 +106,7 @@ namespace DesktopInterface.ViewModels
 
         private void ModelToBrush()
         {
-            byte A = 255;
-            PreviewColor = new SolidColorBrush(Color.FromArgb(A, (byte)R, (byte)G, (byte)B));
+            PreviewColor = new SolidColorBrush(Color.FromRgb((byte)R, (byte)G, (byte)B));
         }
     }
 }

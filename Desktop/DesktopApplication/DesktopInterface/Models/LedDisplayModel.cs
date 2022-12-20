@@ -94,7 +94,7 @@ namespace DesktopInterface.Models
          * @brief Generate HTTP POST request parameters for clearing LED display via IoT server script
          * @return HTTP POST request parameters as Key-Value pairs
          */
-        List<KeyValuePair<string, string>> clearData;
+        List<KeyValuePair<string, string>>? clearData;
         public List<KeyValuePair<string, string>> GetClearPostData()
         {
             if (clearData == null)

@@ -31,5 +31,57 @@ namespace DesktopInterface.Views
         {
             InitializeComponent();
         }
+
+        private void MainGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataGridViewModel? dataContext = DataContext as DataGridViewModel;
+            if (dataContext != null)
+            {
+
+                for (int i = 0; i < 2; i++)
+                {
+                    GriddData.ColumnDefinitions.Add(new ColumnDefinition());
+                    GriddData.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Auto);
+                }
+
+                for (int i = 0; i < dataContext.Units!.Count; i++)
+                {
+                    GriddData.RowDefinitions.Add(new RowDefinition());
+                    GriddData.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Auto);
+                }
+
+                for (int i = 0; i < dataContext?.Units.Count; i++)
+                {
+                    var dataStruct = dataContext?.DataStructs?[i];
+                    TextBlock block = new();
+                    if (dataStruct != null)
+                    {
+                        block = new TextBlock
+                        {
+                            Name = "TextBlock" + i.ToString(),
+                            Text = dataStruct.name,
+                            TextAlignment = TextAlignment.Right,
+                            Margin = new Thickness(0, 0, 5, 0),
+                        };
+                    }
+                    ComboBox Box = new()
+                    {
+                        Name = "ComboBox" + i.ToString(),
+                        ItemsSource = dataContext?.Units?[i],
+                        SelectedItem = dataContext?.SelectedUnit?[i],
+                    };
+                    Box.SetBinding(ComboBox.SelectedItemProperty, dataContext?.GetCommandBinding(i));
+                    Grid.SetColumn(block, 0);
+                    Grid.SetRow(block, i);
+                    Grid.SetColumn(Box, 1);
+                    Grid.SetRow(Box, i);
+                    GriddData.Children.Add(block);
+                    RegisterName(block.Name, block);
+                    GriddData.Children.Add(Box);
+                    RegisterName(Box.Name, Box);
+                }
+                dataContext!.GridData = GriddData;
+            }
+        }
     }
 }

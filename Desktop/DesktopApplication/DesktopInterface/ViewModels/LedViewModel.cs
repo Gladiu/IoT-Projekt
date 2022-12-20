@@ -9,7 +9,6 @@
  */
 
 using DesktopInterface.Control;
-using OxyPlot;
 using System.ComponentModel;
 using System.Windows.Media;
 
@@ -80,8 +79,7 @@ namespace DesktopInterface.ViewModels
         {
             if (_model.ColorNotNull())
             {
-                byte A = 255;
-                return new SolidColorBrush(Color.FromArgb(A, (byte)_model.R, (byte)_model.G, (byte)_model.B));
+                return new SolidColorBrush(Color.FromRgb((byte)_model.R!, (byte)_model.G!, (byte)_model.B!));
             }
             else
             {
@@ -103,7 +101,7 @@ namespace DesktopInterface.ViewModels
                 || _model.B != (byte)b;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

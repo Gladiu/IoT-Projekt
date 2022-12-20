@@ -31,37 +31,40 @@ namespace DesktopInterface.Views
         {
             var LedStyle = (Style)FindResource("LedIndicatorStyle");
             var dataContext = DataContext as LedControlViewModel;
-            for (int i = 0; i < dataContext.DisplaySizeX; i++)
+            if (dataContext != null)
             {
-                GridData.ColumnDefinitions.Add(new ColumnDefinition());
-                GridData.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
-            }
-
-            for (int i = 0; i < dataContext.DisplaySizeY; i++)
-            {
-                GridData.RowDefinitions.Add(new RowDefinition());
-                GridData.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
-            }
-
-            for (int i = 0; i < dataContext.DisplaySizeX; i++)
-            {
-                for (int j = 0; j < dataContext.DisplaySizeY; j++)
+                for (int i = 0; i < dataContext.DisplaySizeX; i++)
                 {
-                    Button led = new Button()
-                    {
-                        Name = "LED" + i.ToString() + j.ToString(),
-                        Style = LedStyle,
-                        BorderThickness = new Thickness(2),       
-                    };
-                    led.SetBinding(Button.CommandProperty, dataContext.GetCommandBinding(i, j));
-                    led.SetBinding(Button.BackgroundProperty, dataContext.GetColordBinding(i, j));
-                    Grid.SetColumn(led, i);
-                    Grid.SetRow(led, j);
-                    GridData.Children.Add(led);
-                    RegisterName(led.Name, led);
+                    GridData.ColumnDefinitions.Add(new ColumnDefinition());
+                    GridData.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
                 }
+
+                for (int i = 0; i < dataContext.DisplaySizeY; i++)
+                {
+                    GridData.RowDefinitions.Add(new RowDefinition());
+                    GridData.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
+                }
+
+                for (int i = 0; i < dataContext.DisplaySizeX; i++)
+                {
+                    for (int j = 0; j < dataContext.DisplaySizeY; j++)
+                    {
+                        Button led = new Button()
+                        {
+                            Name = "LED" + i.ToString() + j.ToString(),
+                            Style = LedStyle,
+                            BorderThickness = new Thickness(2),
+                        };
+                        led.SetBinding(Button.CommandProperty, dataContext.GetCommandBinding(i, j));
+                        led.SetBinding(Button.BackgroundProperty, dataContext.GetColordBinding(i, j));
+                        Grid.SetColumn(led, i);
+                        Grid.SetRow(led, j);
+                        GridData.Children.Add(led);
+                        RegisterName(led.Name, led);
+                    }
+                }
+                dataContext.ButtonMatrixGrid = GridData;
             }
-            dataContext.ButtonMatrixGrid = GridData;
         }
     }
 }

@@ -1,18 +1,13 @@
 ﻿using Caliburn.Micro;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataTypes;
-using System.Windows;
 using DesktopInterface.Control;
 
 namespace DesktopInterface.ViewModels
 {
     public class WindowViewModel : Conductor<object>
     {
-        private List<DataStruct> dataTypes;
+        public static List<DataStruct>? DataTypes;
         private string _activeTab = "Entry";
         public string ActiveTab
         {
@@ -30,7 +25,7 @@ namespace DesktopInterface.ViewModels
         {
             ApiHelper.GetDataStructsList("dataTypes.php").ContinueWith(result => 
             {
-                dataTypes = result.Result;
+                DataTypes = result.Result;
             });
             LoadEntryView("Entry");
         }
@@ -53,7 +48,7 @@ namespace DesktopInterface.ViewModels
         }
         public void LoadDataGridView(string activeTab) 
         {
-            ActivateItemAsync(new DataGridViewModel()).ContinueWith(result => {
+            ActivateItemAsync(new DataGridViewModel(DataTypes)).ContinueWith(result => {
                 if (result.IsCompletedSuccessfully) 
                 {
                     ActiveTab = "Data";
@@ -66,7 +61,7 @@ namespace DesktopInterface.ViewModels
         }
         public void LoadChartView(string activeTab) 
         {
-            ActivateItemAsync(new ChartViewModel(dataTypes)).ContinueWith(result => {
+            ActivateItemAsync(new ChartViewModel(DataTypes)).ContinueWith(result => {
                 if (result.IsCompletedSuccessfully)
                 {
                     ActiveTab = "Chart";

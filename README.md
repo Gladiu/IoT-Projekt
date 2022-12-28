@@ -41,7 +41,8 @@ Server should also be able to receive post values such as LED light request in R
 ```json
 [
     {
-        "id": 1,
+        "x": 1,
+        "y": 2,
         "R": 250,
         "G": 69,
         "B": 0

@@ -12,13 +12,13 @@ namespace DesktopInterface.ViewModels
 {
     public class DataGridViewModel : Screen
     {
-        private float _samplingTime;
-        private DispatcherTimer _timer;
-        private string _header = "Datasets downloaded from sensehat";
-        private List<DataObject>? _dataObjects = new List<DataObject>();
-        private List<List<string>>? _units;
+        private readonly float _samplingTime;
+        private readonly DispatcherTimer _timer;
+        private string header = "Datasets downloaded from sensehat";
+        private List<DataObject>? dataObjects = new List<DataObject>();
+        private List<List<string>>? units;
         public List<DataStruct>? DataStructs;
-        private List<string>? _selectedUnit;
+        private List<string>? selectedUnit;
         public DataGridViewModel()
         {
             _timer = new DispatcherTimer();
@@ -32,17 +32,16 @@ namespace DesktopInterface.ViewModels
             _samplingTime = ApplicationConfiguration.SamplingTime;
             DispatchTimer();
             DataStructs = dataStructs;
-            _units = new List<List<string>>();
-            _selectedUnit = new List<string>();
-            _dataObjects = new List<DataObject>();
+            units = new List<List<string>>();
+            selectedUnit = new List<string>();
+            dataObjects = new List<DataObject>();
             GridData = new Grid();
             if (dataStructs != null) 
             {
                 foreach (var data in dataStructs)
                 {
-                    var units = data.units;
-                    _units.Add(units);
-                    _selectedUnit.Add(data.defaultUnit);
+                    units.Add(data.units);
+                    selectedUnit.Add(data.defaultUnit);
                 }
             }
             NotifyOfPropertyChange(() => SelectedUnit);
@@ -52,29 +51,29 @@ namespace DesktopInterface.ViewModels
         {
             get 
             {
-                return _header;
+                return header;
             }
             set 
             {
-                _header = value;
+                header = value;
                 NotifyOfPropertyChange(() => Header);
             }
         }
 
         public List<DataObject>? DataObjects
         {
-            get { return _dataObjects; }
+            get { return dataObjects; }
             set 
             {
-                _dataObjects = value;
+                dataObjects = value;
                 NotifyOfPropertyChange(() => DataObjects);
             }
         }
 
         public List<List<string>>? Units
         {
-            get { return _units; }
-            set { _units = value; NotifyOfPropertyChange(() => Units); }
+            get { return units; }
+            set { units = value; NotifyOfPropertyChange(() => Units); }
         }
 
         public Grid? GridData { get; set; }
@@ -83,11 +82,11 @@ namespace DesktopInterface.ViewModels
         {
             get 
             {
-                return _selectedUnit;
+                return selectedUnit;
             }
             set 
             {
-                _selectedUnit = value;
+                selectedUnit = value;
                 NotifyOfPropertyChange(() => SelectedUnit);
             }
         }
@@ -125,12 +124,15 @@ namespace DesktopInterface.ViewModels
         {
             ApiHelper.PostSelectedUnits("post/selected_units.json", SelectedUnit).ContinueWith(task => 
             {
-                var result = task.Result;
+                if (task.Result != null) 
+                {
+                    for (int i = 0; i < SelectedUnit?.Count; i++)
+                    {
+                        WindowViewModel.DataTypes[i].defaultUnit = SelectedUnit[i];
+                    }
+                }
             });
-            for (int i = 0; i < SelectedUnit?.Count; i++) 
-            {
-                WindowViewModel.DataTypes[i]!.defaultUnit = SelectedUnit[i];
-            }
+
         }
     }
 }

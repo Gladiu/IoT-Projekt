@@ -26,7 +26,7 @@ namespace DesktopInterface.ViewModels
 
         private List<string>? _dataTypes;
 
-        private int _samples;
+        private readonly int _samples;
 
         private float _samplingTime;
 
@@ -182,7 +182,7 @@ namespace DesktopInterface.ViewModels
                 _time = _time + _samplingTime / 1000;
 
                 Plot = _plot;
-                Plot?.InvalidatePlot(true); ;
+                Plot?.InvalidatePlot(true);
             });
         }
 
@@ -218,7 +218,6 @@ namespace DesktopInterface.ViewModels
                 _plot.Series.Add(new LineSeries { LineStyle = LineStyle.Solid });
                 _plot.Axes.Add(new LinearAxis() { Title = $"{_selectedUnit}", Position = AxisPosition.Left });
                 _plot.Axes.Add(new LinearAxis() { Title = $"time[s]", Position = AxisPosition.Bottom });
-                //_plot.Series.Add(_data);
                 _createdSamples = 0;
                 Plot = _plot;
             }
@@ -230,7 +229,6 @@ namespace DesktopInterface.ViewModels
             _plot.Series.Add(new LineSeries { LineStyle = LineStyle.Solid });
             _plot.Axes.Add(new LinearAxis() { Title = $"{_selectedUnit}", Position = AxisPosition.Left });
             _plot.Axes.Add(new LinearAxis() { Title = $"time[s]", Position = AxisPosition.Bottom });
-            //_plot.Series.Add(_data);
             _createdSamples = 0;
             Plot = _plot;
         }

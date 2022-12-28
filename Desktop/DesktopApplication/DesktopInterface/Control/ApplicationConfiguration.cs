@@ -7,15 +7,25 @@ namespace DesktopInterface.Control
 {
     public static class ApplicationConfiguration
     {
-        public static string IpAdress = "http://localhost";
+        private static string ipAdress = "http://localhost";
 
-        public static string Port = "";
+        private static string port = "";
 
-        public static string ApiVersion = "";
+        private static string apiVersion = "";
 
-        public static float SamplingTime = 1000;
+        private static float samplingTime = 1000;
 
-        public static int SamplesCount = 100;
+        private static int samplesCount = 100;
+
+        public static float SamplingTime { get => samplingTime; set => samplingTime = value; }
+
+        public static string ApiVersion { get => apiVersion; set => apiVersion = value; }
+
+        public static string Port { get => port; set => port = value; }
+
+        public static string IpAdress { get => ipAdress; set => ipAdress = value; }
+
+        public static int SamplesCount { get => samplesCount; set => samplesCount = value; }
 
         public static void SaveConfiguration() 
         {

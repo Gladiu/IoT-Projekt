@@ -23,7 +23,7 @@ namespace DesktopInterface.ViewModels
         }
         public WindowViewModel()
         {
-            ApiHelper.GetDataStructsList("dataTypes.php").ContinueWith(result => 
+            ApiHelper.GetDataStructsList("get/DataStructs").ContinueWith(result => 
             {
                 DataTypes = result.Result;
             });

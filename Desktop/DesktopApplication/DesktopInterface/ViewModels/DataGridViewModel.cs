@@ -93,7 +93,7 @@ namespace DesktopInterface.ViewModels
 
         private void LoadData() 
         {
-            ApiHelper.GetDataObjectsList("index.php").ContinueWith(task =>
+            ApiHelper.GetDataObjectsList("get/DataObjects").ContinueWith(task =>
             {
                 if (task.Exception == null)
                 {
@@ -122,7 +122,7 @@ namespace DesktopInterface.ViewModels
 
         public void SetDefaultUnits() 
         {
-            ApiHelper.PostSelectedUnits("post/selected_units.json", SelectedUnit).ContinueWith(task => 
+            ApiHelper.PostSelectedUnits("post/DefaultUnits", SelectedUnit).ContinueWith(task => 
             {
                 if (task.Result != null) 
                 {

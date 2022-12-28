@@ -13,7 +13,7 @@ namespace DesktopInterface.Control
 {
     public static class ApiHelper
     {
-        public static string baseUrl = "http://localhost";
+        private static string baseUrl = "https://b6bd4311-6494-495a-a73c-25ae508bb185.mock.pstmn.io";
         public static HttpClient? ApiClient { get; set; }
         public static void InitializeClient() 
         {
@@ -201,7 +201,7 @@ namespace DesktopInterface.Control
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    string url = $"{baseUrl}/post/led_display.php";
+                    string url = $"{baseUrl}/post/Leds";
                     var requestData = new FormUrlEncodedContent(data);
                     // Sent POST request
                     var result = await client.PostAsync(url, requestData);

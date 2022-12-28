@@ -5,7 +5,7 @@ namespace DesktopInterface.ViewModels
 {
     public class EntryViewModel : Screen
     {
-        private string? _url = "localhost";
+        private string? _url = "https://b6bd4311-6494-495a-a73c-25ae508bb185.mock.pstmn.io";
 
         private string? _port = "";
 

@@ -1,5 +1,6 @@
 ﻿using DataTypes;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -7,7 +8,7 @@ namespace DesktopInterface.Control
 {
     public static class ApplicationConfiguration
     {
-        private static string ipAdress = "http://localhost";
+        private static string ipAdress = "https://b6bd4311-6494-495a-a73c-25ae508bb185.mock.pstmn.io/";
 
         private static string port = "";
 
@@ -40,7 +41,12 @@ namespace DesktopInterface.Control
 
         public static void LoadConfiguration() 
         {
-            string[] lines = File.ReadAllLines("AppConfiguration.json");
+            string[]? lines = null;
+            try
+            {
+                lines = File.ReadAllLines("AppConfiguration.json");
+            }
+            catch(Exception e) { Console.WriteLine(e.Message); }
             if (lines != null) 
             {
                 Config? config = JsonConvert.DeserializeObject<Config>(lines[0]);

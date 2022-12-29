@@ -11,11 +11,6 @@ Response from server must be json formated string with according value:
     "value": 33.3
 }
 ```
-Server can answer with particular data type when called for:
-```csharp
-$"{server_url}/temperature.json"
-```
-Example above shows calling for json file called temperature and the answer should be as above.
 
 ***
 Server can albo respond with list of items currently being managed by it. For example:
@@ -52,3 +47,52 @@ Server should also be able to receive post values such as LED light request in R
 ***
 Serwer should be able to receive all the LED data in the format shown above.
 
+Generated endpoint can be seen on: [Website](https://documenter.getpostman.com/view/25109980/2s8Z6yVY2X).
+
+***
+Dtos can be as follows written in c#:
+
+```csharp
+public class DataObjectDto
+{
+    public string? Name { get; set; }
+    public float? Value { get; set; }
+    public string? Unit { get; set; }
+}
+```
+
+```csharp
+public class DataStructDto
+{
+    public string? Name { get; set; }
+
+    public IEnumerable<string>? Units { get; set; }
+
+    public float? Value { get; set; }
+
+    public string? DefaultUnit { get; set; }
+}
+```
+
+```csharp
+public class LedDto
+{
+    public int? X { get; set; }
+
+    public int? Y { get; set; }
+
+    public int? R { get; set; }
+
+    public int? G { get; set; }
+
+    public int? B { get; set; }
+}
+```
+```csharp
+public class SelectedDefaultUnitDto
+{
+    public string? Name { get; set; }
+
+    public string? Unit { get; set; }
+}
+```

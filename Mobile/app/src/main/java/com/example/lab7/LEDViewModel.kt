@@ -39,7 +39,7 @@ class LEDViewModel : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_led, container, false)
 
-        LEDModelObject.initVolleyQueue(this.requireActivity())
+        LEDModelObject.initSettings(this.requireActivity())
 
         colorInputText = view.findViewById(R.id.colorInputText)
         colorApplyButton = view.findViewById(R.id.colorApplyButton)

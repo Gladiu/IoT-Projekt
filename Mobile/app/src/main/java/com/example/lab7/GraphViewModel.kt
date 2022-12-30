@@ -24,8 +24,6 @@ class GraphViewModel : Fragment() {
     lateinit var graphPressure: GraphView
     lateinit var graphHumidity: GraphView
 
-    lateinit var cycleApplyButton: Button
-    lateinit var cyclicTextInput: TextInputEditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +35,9 @@ class GraphViewModel : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_graph, container, false)
+
+        GraphModelObject.initSettings(this.requireActivity())
+
         graphTemperature = view.findViewById(R.id.graphTemperature)
         graphPressure = view.findViewById(R.id.graphPressure)
         graphHumidity = view.findViewById(R.id.graphHumidity)
@@ -60,16 +61,6 @@ class GraphViewModel : Fragment() {
         graphHumidity.legendRenderer.setTextSize(20F);
         // on below line we are adding data to our graph view.
 
-        cyclicTextInput = view.findViewById(R.id.cyclicTextInput)
-
-        cycleApplyButton = view.findViewById(R.id.cycleApplyButton)
-        cycleApplyButton.setOnClickListener {
-
-            try {
-                GraphModelObject.cycleTime = cyclicTextInput.text.toString().toLong()
-            }catch (exc: Throwable){}
-
-        }
 
 
         return view

@@ -19,6 +19,8 @@ class LEDModel {
     var colorData: MutableList<LEDData> = mutableListOf<LEDData>()
     var recentlyChangedLeds: MutableList<Int> = ArrayList(64)
 
+    var url = ""
+
     lateinit var volleyQueue:RequestQueue
 
     init{
@@ -35,14 +37,18 @@ class LEDModel {
         }
     }
 
-    fun initVolleyQueue(currentActivity: FragmentActivity){
+    fun initSettings(currentActivity: FragmentActivity){
         volleyQueue = Volley.newRequestQueue(currentActivity)
+        url = ""
+        try {
+            url = currentActivity.getPreferences(MODE_PRIVATE).getString("IP","")!!
+        }
+        catch (exc: Throwable){} // we shouldnt ever get here, if we do its issue with settings
+        url += "/post/Leds"
     }
 
 
     fun sendLEDPOSTRequest(currentActivity:FragmentActivity){
-        var url = currentActivity.getPreferences(MODE_PRIVATE).getString("IP","")
-        url += "/post/Leds"
 
         var JSONData: JSONArray = JSONArray()
         for (id in recentlyChangedLeds){

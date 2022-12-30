@@ -33,22 +33,6 @@
                             android:layout_height="200dip"
                             android:layout_marginTop="44dp" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/cyclicTextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="152dp"
-                            android:capitalize="none"
-                            android:hint="Update Time in ms" />
-
-                        <Button
-                            android:id="@+id/cycleApplyButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="96dp"
-                            android:textStyle="bold"
-                            android:text="Apply" />
-
                 </LinearLayout>
         </ScrollView>
 

@@ -25,6 +25,8 @@ class LEDViewModel : Fragment() {
     lateinit var colorApplyButton: Button
     lateinit var sendRequestButton:Button
 
+    var buttonArray = mutableListOf<ImageButton>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,8 @@ class LEDViewModel : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_led, container, false)
 
+        LEDModelObject.initVolleyQueue(this.requireActivity())
+
         colorInputText = view.findViewById(R.id.colorInputText)
         colorApplyButton = view.findViewById(R.id.colorApplyButton)
 
@@ -48,13 +52,17 @@ class LEDViewModel : Fragment() {
 
         sendRequestButton.setBackgroundColor(Color.GREEN)
         sendRequestButton.setOnClickListener {
-            LEDModelObject.sendLEDRequest(this.requireActivity())
+            LEDModelObject.sendLEDPOSTRequest(this.requireActivity())
             sendRequestButton.setBackgroundColor(Color.GREEN)
         }
+        sendRequestButton.isActivated = false
+        colorApplyButton.isActivated = false
 
         // Adding buttons to represent all of the LED of
         val verticalLinearLayout: LinearLayout = view.findViewById(R.id.verticalLinearLayout)
         verticalLinearLayout.weightSum = 8.0f
+
+
         for (y in 0..7) {
 
             var horizontalLinearLayout = LinearLayout(view.context)
@@ -66,16 +74,19 @@ class LEDViewModel : Fragment() {
                 var currentLedButton = ImageButton(horizontalLinearLayout.context)
                 val buttonLayoutParams = LayoutParams(70, 70 )
                 currentLedButton.layoutParams = buttonLayoutParams
-                currentLedButton.setBackgroundColor(Color.parseColor("#f0f0f0")) // grey colour
+
+
+                currentLedButton.setBackgroundColor(Color.parseColor( LEDModelObject.getColorAt(x,y) ))
 
                 currentLedButton.setOnClickListener {
                     try {
                         currentLedButton.setBackgroundColor(Color.parseColor(LEDModelObject.selectedColour))
                     }catch (exc: Throwable){}
                     LEDModelObject.setColorAt(x,y)
+                    LEDModelObject.recentlyChangedLeds.add(y*8+x)
                     sendRequestButton.setBackgroundColor(Color.RED)
                 }
-
+                buttonArray.add(currentLedButton)
                 horizontalLinearLayout.addView(currentLedButton)
 
                 var dummyView = View(horizontalLinearLayout.context)
@@ -85,7 +96,11 @@ class LEDViewModel : Fragment() {
             verticalLinearLayout.addView(horizontalLinearLayout)
         }
 
+        LEDModelObject.sendLEDGETRequest(this.requireActivity(), buttonArray)
+
         return view
     }
+
+
 
 }

@@ -43,7 +43,10 @@ class GraphModel {
                 currentFragment.lifecycleScope.launch {
                     //doSomething()
                     val volleyQueue = Volley.newRequestQueue(currentFragment.requireActivity())
-                    val url = currentFragment.requireActivity().getPreferences(Context.MODE_PRIVATE).getString("IP","")
+                    var url = currentFragment.requireActivity().getPreferences(Context.MODE_PRIVATE).getString("IP","")
+                    url += "/get/DataObjects"
+
+                    cycleTime = currentFragment.requireActivity().getPreferences(Context.MODE_PRIVATE).getLong("sampleTime",0)
 
                     val jsonObjectRequest = JsonArrayRequest(
                         Request.Method.GET,

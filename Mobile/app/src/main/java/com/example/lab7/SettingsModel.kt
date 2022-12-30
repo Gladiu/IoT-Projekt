@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 
 class SettingsModel {
-    var IP:String = "http://217.182.75.146/index.php"
+    var IP:String = "https://b6bd4311-6494-495a-a73c-25ae508bb185.mock.pstmn.io"
     var sampleTime: Long = 100L
 
 

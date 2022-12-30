@@ -10,6 +10,7 @@ import com.google.android.material.textfield.TextInputEditText
 
 class SettingsViewModel : Fragment() {
 
+
     lateinit var applyButton : Button
     lateinit var IPTextInput : TextInputEditText
     lateinit var SampleTimetextInput : TextInputEditText

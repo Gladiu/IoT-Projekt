@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+	<meta charset="utf-8">
+	<title>Projekt z Aplikacji Internetu Rzeczy</title>
+	<meta name="description" content="Zadania na zajęcia z aplikacji Internetu rzeczy :)" />
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+	<link rel="stylesheet" href="style.css">
+	
+</head>
+<body>
+
+	<div id="Matrix">
+	</div>
+	<div id="Sliders">
+		<label class="SliderLabel">R<input type="range" id="R" class="RGBSlider" min="0" value="0" max="255" step="1"></label></br>
+		<label class="SliderLabel">G<input type="range" id="G" class="RGBSlider" min="0" value="0" max="255" step="1"></label></br>
+		<label class="SliderLabel">B<input type="range" id="B" class="RGBSlider" min="0" value="0" max="255" step="1"></label>
+	</div>
+	<div id="MatrixButtons">
+		<button id="ClearMatrix" class="MatrixButton">Clear</button>
+		<div id="ExampLED"></div>
+		<button id="SendMatrix" class="MatrixButton">Send</button>
+		<div style="clear:both;"></div>
+	</div>
+</body>
+</html>

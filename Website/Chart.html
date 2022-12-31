@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+	<meta charset="utf-8">
+	<title>Projekt z Aplikacji Internetu Rzeczy</title>
+	<meta name="description" content="Zadania na zajęcia z aplikacji Internetu rzeczy :)" />
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+	<link rel="stylesheet" href="style.css">
+	
+</head>
+<body>
+
+	<div id="ChartMain">
+		Data Selected: <select id="SelectChart" class="Chosen ChartOption"></select> 
+		Sampling time: <input id="SamplingTime" type="number" step="0.01" min="0.01"/> 
+		Selected Unit: <select id="SelectUnit" class="Chosen ChartOption"></select>
+	</div>
+	<div id="ChartHere" style="width:975px;height:500px;">
+		<canvas id="myChart"></canvas>
+	</div>
+
+</body>
+</html>

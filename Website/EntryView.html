@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="description" content="Zadania na zajęcia z aplikacji Internetu rzeczy :)" />
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+	<link rel="stylesheet" href="style.css">
+	
+</head>
+<body>
+
+	<div id="EntryContent">
+		<div id="Config">
+			<label class="ConfigLabel" for="IP">Selected IP: </label><input name="IP" class="ConfigInput" type="text">
+			<label class="ConfigLabel" for="Port">Selected Port: </label><input name="Port" class="ConfigInput" type="number" min="1" max="65536">
+			<label class="ConfigLabel" for="API">ApiVersion:</label> <input name="API" class="ConfigInput" type="text" placeholder="API1">
+			<label class="ConfigLabel" for="Tp">Sampling time:</label> <input name="Tp" class="ConfigInput" type="number" min="0.01" step="0.01">
+			<label class="ConfigLabel" for="Count">Samples Count:</label> <input name="Count" class="ConfigInput" type="number" min="1" max="65536">
+
+		</div>
+		<div id="SaveLoad">
+			<button class="ConfigButtons" id="SaveButton">Save settings</button></br>
+			<button class="ConfigButtons" id="LoadButton">Load settings</button>
+		</div>
+		<div style="clear:both;"></div>
+		<div id="Errors"></div>
+	</div>
+
+</body>
+</html>

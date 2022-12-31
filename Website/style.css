@@ -1,0 +1,236 @@
+body
+{
+	background-color: #FFFFFF;
+}
+
+#MainContent
+{
+	width: 1000px;
+	height: 650px;
+	margin-top: 50px; 
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.MainButtons
+{
+	color: white;
+	background-color: #009900;
+	font-size: 20px;
+	border: 2px solid #111111;
+	margin-left: 10px;
+}
+
+.MainButtons:not(.Pressed):hover
+{
+	cursor: pointer;
+	color: #EEEEEE;
+	background-color: #00AA00;
+}
+
+#Show
+{
+	margin-top: 20px;
+	border: none;
+}
+
+.Pressed
+{
+	color: #696b6a;
+	background-color: #cfcfcf;
+}
+
+#Config
+{
+	font-size: 20px;
+	margin-left: 20px;
+	float: left;
+}
+
+.ConfigInput
+{
+	float: left;
+	width:150px;
+}
+
+.ConfigLabel
+{
+	width:140px;
+    clear:left;
+    text-align:left;
+	float:left;
+}
+
+#SaveLoad
+{
+	float: left;
+	margin-left: 100px;
+}
+
+.ConfigButtons
+{
+	color: white;
+	background-color: #009900;
+	font-size: 20px;
+	margin-top: 5px;
+	border: 2px solid #111111;
+	width: 150px;
+}
+
+.ConfigButtons:hover
+{
+	cursor: pointer;
+	color: #EEEEEE;
+	background-color: #00AA00;
+}
+
+#Errors
+{
+	margin-top: 10px;
+	font-size: 20px;
+	color: #FF0000;
+}
+
+#DataTable
+{
+	margin-left: 20px;
+	border-spacing: 0px;
+    border-collapse: separate;
+	float: left;
+}
+
+.mainTab
+{
+	background-color: #EEEEEE;
+	border-bottom: 2px solid #BBBBBB;
+	border-top: 2px solid #BBBBBB;
+	border-left: 2px solid #BBBBBB;
+}
+
+.mainTab:last-child
+{
+	border-right: 2px solid #BBBBBB;
+}
+
+.MeasureCell
+{
+	background-color: #FFFFFF;
+	border-bottom: 2px solid #000000;
+	border-left: 2px solid #000000;
+}
+.MeasureCell:last-child
+{
+	border-right: 2px solid #000000;
+}
+
+table#DataTable > tr > td
+{
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+#UnitsChoice
+{
+	margin-left: 30px;
+	margin-top: 25px;
+	border-spacing: 0px;
+	float: left;
+}
+
+.Chosen
+{
+	background-color: #EEEEEE;
+	padding: 2px;
+	border: 2px solid #BBBBBB;
+	width: 75px;
+}
+
+#ChartMain
+{
+	margin-left: 20px;
+}
+
+#SelectChart
+{
+	width: 150px;
+}
+
+#ChartHere
+{
+	margin-top: 20px;
+}
+
+#Matrix
+{
+	margin-top: 20px;
+}
+
+.LED
+{
+	width: 26px;
+	height: 26px;
+	border: 2px solid #000000;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	float: left;
+}
+
+#Sliders
+{
+	margin-top: 20px;
+}
+
+.RGBSlider
+{
+	-webkit-appearance: none;
+	width: 400px;
+	height: 5px;
+	background: #d3d3d3;
+	outline: none;
+	margin-left: 10px;
+}
+
+.RGBSlider::-webkit-slider-thumb {
+	-webkit-appearance: none; /* Override default look */
+	appearance: none;
+	width: 13px; 
+	height: 18px; 
+	border: 2px solid #CCCCCC;
+	background-color: #EEEEEE; 
+	cursor: pointer; 
+}
+
+#MatrixButtons
+{
+	margin-top: 20px;
+}
+
+.MatrixButton
+{
+	color: white;
+	background-color: #009900;
+	font-size: 20px;
+	border: 2px solid #111111;
+	margin-left: 10px;
+	float: left;
+	width: 165px;
+}
+
+.MatrixButton:hover
+{
+	cursor: pointer;
+	color: #EEEEEE;
+	background-color: #00AA00;
+}
+
+#ExampLED
+{
+	width: 26px;
+	height: 26px;
+	border: 2px solid #000000;
+	margin-left: 20px;
+	margin-right: 10px;
+	float: left;
+}

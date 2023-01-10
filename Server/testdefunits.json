@@ -1,0 +1,26 @@
+[
+    {
+        "name": "temperature",
+        "unit": "F"
+    },
+    {
+        "name": "pressure",
+        "unit": "mmHg"
+    },
+    {
+        "name": "humidity",
+        "unit": "%"
+    },
+    {
+        "name": "roll",
+        "unit": "deg"
+    },
+    {
+        "name": "pitch",
+        "unit": "rad"
+    },
+    {
+        "name": "yaw",
+        "unit": "deg"
+    }
+]

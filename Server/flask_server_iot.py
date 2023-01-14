@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import flask as fsk
+from flask import make_response
 from urllib.request import urlopen
 import json, random
 import subprocess
@@ -8,6 +9,8 @@ from sense_emu import SenseHat
 sense = SenseHat()
 
 app = fsk.Flask(__name__)
+
+headers = {'Content-Type': 'application/json'}
 
 global_DataStructure = []
 with open('global_DataStructure.json', 'r') as f:
@@ -27,7 +30,7 @@ def change_def_units(units_to_change):
 
 @app.route('/get/DataStructs', methods=['GET'])
 def get_data_structs():
-
+    headers = {'Content-Type': 'application/json'}
     data = global_DataStructure
     data = json.dumps(data)
     data = subprocess.check_output(['python', 'process_temperature.py', data])
@@ -35,7 +38,7 @@ def get_data_structs():
     data = subprocess.check_output(['python', 'process_humidity.py', data])
     data = subprocess.check_output(['python', 'process_orientation.py', data])
     
-    return data
+    return make_response(data, headers)  
 
 
 @app.route('/get/DataObjects', methods=['GET'])
@@ -75,7 +78,7 @@ def get_data_objects():
                 }
                 output_data.append(output_element)
 
-        return json.dumps(output_data)
+        return make_response(json.dumps(output_data), headers)
 
     except:
         data = global_DataStructure
@@ -94,8 +97,8 @@ def get_data_objects():
             }
             output_data.append(output_element)
 
-        return json.dumps(output_data)
-
+        return make_response(json.dumps(output_data), headers) 
+       
 
 @app.route('/get/Leds', methods=['GET'])
 def get_leds():
@@ -113,7 +116,7 @@ def get_leds():
             }
             leds_state.append(data)
 
-    return json.dumps(leds_state)
+    return make_response(json.dumps(leds_state), headers) 
 
 
 @app.route('/post/Leds', methods=['POST'])
@@ -130,10 +133,10 @@ def post_led_colors():
             g = led_data['G']
             b = led_data['B']
             sense.set_pixel(x, y, r, g, b)
-        return json.dumps([{"Result": 1}])
+        return make_response(json.dumps([{"Result": 1}]), headers) 
     except Exception as e:
         print(e)
-        return json.dumps([{"Result": -1}])
+        return make_response(json.dumps([{"Result": -1}]), headers) 
 
 
 @app.route('/post/DefaultUnits', methods=['POST'])
@@ -146,15 +149,15 @@ def post_default_units():
         
         change_def_units(def_units)
     
-        return json.dumps([{"Result": 1}])
+        return make_response(json.dumps([{"Result": 1}]), headers) 
     except Exception as e:
         print(e)
-        return json.dumps([{"Result": -1}])
+        return make_response(json.dumps([{"Result": -1}]), headers) 
 
 
 @app.route('/test', methods=['GET'])
 def hello():
-    return 'Witaj świecie!'
+    return make_response('Witaj świecie!', headers) 
 
 if __name__ == '__main__':
     app.run(host='192.168.31.145', debug=False)

@@ -17,6 +17,9 @@ class SettingsModel {
     var sampleTime: Long = 100L
 
 
+    /**
+     * Sets new sample time in preferences
+     */
     fun setNewSampleTime(newSampleTime:Long, currentActivity: FragmentActivity){
         // Push new IP to settings
         currentActivity.getPreferences(MODE_PRIVATE)
@@ -26,6 +29,9 @@ class SettingsModel {
         sampleTime = newSampleTime
     }
 
+    /**
+     * Sets new ip in preferences
+     */
     fun setNewIP(newIP:String, currentActivity: FragmentActivity){
         // Push new IP to settings
         currentActivity.getPreferences(MODE_PRIVATE)

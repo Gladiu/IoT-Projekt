@@ -8,6 +8,17 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.google.android.material.textfield.TextInputEditText
 
+/**
+ * @brief Viewmodel of Settings
+ *
+ * @description This class is used to display current application settings
+ *
+ * @property applyButton Button that applies current changes
+ * @property IPTextInput TextInput used to change current url
+ * @property SampleTimetextInput TextInput used to change Sample time of data
+ * @property SettingsModelObject object used to encapsulate backend data
+ * @constructor NA
+ */
 class SettingsViewModel : Fragment() {
 
 
@@ -21,6 +32,9 @@ class SettingsViewModel : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    /**
+     * Creating and filling the view with graphs
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

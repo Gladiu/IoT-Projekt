@@ -15,6 +15,17 @@ import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 
+/**
+ * @brief Viewmodel of Graph classes
+ *
+ * @description This class is a viewmodel used in View creating graphs.
+ *
+ * @property GraphModelObject object used to encapsulate backend data
+ * @property graphTemperature graph objects used to display temperature data
+ * @property graphPressure graph objects used to display pressure data
+ * @property graphHumidity graph objects used to display humidity data
+ * @constructor NA
+ */
 
 class GraphViewModel : Fragment() {
 
@@ -24,11 +35,13 @@ class GraphViewModel : Fragment() {
     lateinit var graphPressure: GraphView
     lateinit var graphHumidity: GraphView
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
+    /**
+     * Creating and filling the view with graphs
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,7 +64,7 @@ class GraphViewModel : Fragment() {
         graphTemperature.legendRenderer.setVisible(true);
         graphPressure.legendRenderer.setVisible(true);
         graphHumidity.legendRenderer.setVisible(true);
-        // setting fix position for the title
+
         graphTemperature.legendRenderer.setFixedPosition(4, 5);
         graphPressure.legendRenderer.setFixedPosition(4, 5);
         graphHumidity.legendRenderer.setFixedPosition(4, 5);
@@ -59,9 +72,6 @@ class GraphViewModel : Fragment() {
         graphTemperature.legendRenderer.setTextSize(20F);
         graphPressure.legendRenderer.setTextSize(20F);
         graphHumidity.legendRenderer.setTextSize(20F);
-        // on below line we are adding data to our graph view.
-
-
 
         return view
 

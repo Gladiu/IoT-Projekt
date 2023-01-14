@@ -17,6 +17,18 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
+/**
+ * @brief Data class for RawData
+ *
+ * @description Class that encapsulates all the information from physical sensors
+ *
+ * @property currentTime current time
+ * @property lastTime last recorded time
+ * @property cycleTime cycle time for updating the graph
+ * @property url url that provides data for graph
+ * @property volleyQueue queue used to make GET requests
+ * @constructor Initializes empty model
+ */
 
 class RawDataModel {
 
@@ -26,11 +38,12 @@ class RawDataModel {
 
     var url = ""
 
-    val rawDataMap = mutableMapOf<String, Double>()
-
     lateinit var volleyQueue: RequestQueue
 
 
+    /**
+     * Initializes settings that need activity
+     */
     fun initSettings(currentActivity: FragmentActivity) {
 
         volleyQueue = Volley.newRequestQueue(currentActivity)
@@ -44,6 +57,9 @@ class RawDataModel {
 
     }
 
+    /**
+     * Starts updating data on a timer
+     */
     fun startTimer(currentFragment: Fragment, linearLayout: LinearLayout) {
         val timerName = currentFragment.lifecycleScope.launch(Dispatchers.IO) {
             while (isActive) {

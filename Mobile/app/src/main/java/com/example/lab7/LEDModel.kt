@@ -13,6 +13,18 @@ import com.android.volley.toolbox.Volley
 import org.json.JSONArray
 import org.json.JSONObject
 
+/**
+ * @brief Data class for LED
+ *
+ * @description Class that encapsulates all the information about one LED
+ *
+ * @property selectedColour hex RGB value of currently selected colour
+ * @property colorData List containing data of all LEDS
+ * @property recentlyChangedLeds List containing data of recently changed LEDS
+ * @property url used to GET and POST LED data
+ * @property volleyQueue queue used to make GET requests
+ * @constructor Initializes empty model. Fills LED with default colour
+ */
 
 class LEDModel {
     var selectedColour: String = "#f0f0f0"
@@ -23,6 +35,9 @@ class LEDModel {
 
     lateinit var volleyQueue:RequestQueue
 
+    /**
+     * Initializes empty model. Initializes LED data with empty colour
+     */
     init{
         for (y in 0..7) {
             for (x in 0..7) {
@@ -37,6 +52,9 @@ class LEDModel {
         }
     }
 
+    /**
+     * Initializes settings that need activity
+     */
     fun initSettings(currentActivity: FragmentActivity){
         volleyQueue = Volley.newRequestQueue(currentActivity)
         url = ""
@@ -48,6 +66,9 @@ class LEDModel {
     }
 
 
+    /**
+     * Sends POST request to url containing newly changed LED data
+     */
     fun sendLEDPOSTRequest(currentActivity:FragmentActivity){
 
         var JSONData: JSONArray = JSONArray()
@@ -80,6 +101,9 @@ class LEDModel {
         volleyQueue.add(jsonArrayRequest)
     }
 
+    /**
+     * Sends GET request to display actual colour of fragments
+     */
     fun sendLEDGETRequest(currentActivity:FragmentActivity, buttonList: MutableList<ImageButton>){
 
         var url = currentActivity.getPreferences(MODE_PRIVATE).getString("IP","")
@@ -121,6 +145,10 @@ class LEDModel {
         }
     }
 
+    /**
+     * Helper functions used to retrieve colour of specific LED using its x and y position
+     * @return returns RGB hex value of colour
+     */
     fun getColorAt(x:Int, y:Int) : String {
         var returnString = "#"
 
@@ -142,6 +170,10 @@ class LEDModel {
         return returnString
     }
 
+    /**
+     * Helper functions used to retrieve colour of specific LED using its index
+     * @return returns RGB hex value of colour
+     */
     fun getColor(index: Int) : String {
         var returnString = "#"
 
@@ -164,6 +196,9 @@ class LEDModel {
     }
 
 
+    /**
+     * Helper functions used to set colour of specific LED
+     */
     fun setColorAt(x:Int, y:Int){
         colorData[y*8+x].R = selectedColour.substring(1,3).toInt(16)
         colorData[y*8+x].G = selectedColour.substring(4,5).toInt(16)

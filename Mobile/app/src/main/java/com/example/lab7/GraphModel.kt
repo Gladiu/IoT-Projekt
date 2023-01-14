@@ -16,11 +16,26 @@ import androidx.lifecycle.lifecycleScope
 import com.android.volley.RequestQueue
 import kotlinx.coroutines.*
 
+/**
+ * @brief Model of Graph classes
+ *
+ * @description This class is a model used in View creating graphs.
+ *
+ * @property currentTime current time
+ * @property lastTime last recorded time
+ * @property cycleTime cycle time for updating the graph
+ * @property url url that provides data for graph
+ * @property temperatureSeries data series holding temperature data
+ * @property pressureSeries data series holding pressure data
+ * @property humiditySeries data series holding humidity data
+ * @property volleyQueue queue used to make GET requests
+ * @constructor Initializes empty model
+ */
 class GraphModel {
     var currentTime = 1.0
     var lastTime = 0.0
-    var cycleTime = 0L
 
+    var cycleTime = 0L
     var url = ""
 
     var temperatureSeries: LineGraphSeries<DataPoint>
@@ -29,6 +44,9 @@ class GraphModel {
 
     lateinit var volleyQueue: RequestQueue
 
+    /**
+     * Initializes empty model
+     */
     init {
 
         temperatureSeries = LineGraphSeries(arrayOf(DataPoint(0.0, 0.0)))
@@ -43,7 +61,9 @@ class GraphModel {
         humiditySeries.color = Color.RED
     }
 
-
+    /**
+     * Initializes settings that need activity
+     */
     fun initSettings(currentActivity: FragmentActivity) {
 
         volleyQueue = Volley.newRequestQueue(currentActivity)
@@ -57,6 +77,9 @@ class GraphModel {
 
     }
 
+    /**
+     * Starts updating data graphs on a timer
+     */
     fun startTimer(currentFragment: Fragment) {
         val timerName = currentFragment.lifecycleScope.launch(Dispatchers.IO) {
             while (isActive) {

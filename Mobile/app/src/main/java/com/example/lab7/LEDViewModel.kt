@@ -19,6 +19,20 @@ import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 
 
+/**
+ * @brief Viewmodel of LED classes
+ *
+ * @description This class is a viewmodel used in View creating graphs.
+ *
+ * @property LEDModelObject object used to encapsulate backend data
+ * @property colorInputText InputText object used to read colour from user
+ * @property colorApplyButton Button that applies colour from colorInputText
+ * @property sendRequestButton Button used to send requests to device.
+ *                             If its red it means that app and physical device are out of sync
+ * @property buttonArray ImageButton that represent LED matrix of physical device
+ * @constructor NA
+ */
+
 class LEDViewModel : Fragment() {
     val LEDModelObject:LEDModel = LEDModel()
     lateinit var colorInputText: TextInputEditText
@@ -32,6 +46,9 @@ class LEDViewModel : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    /**
+     * Creating and filling the view with LED matrix and buttons
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

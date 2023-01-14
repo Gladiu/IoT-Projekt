@@ -8,23 +8,29 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 
+/**
+ * @brief Viewmodel of Raw Data classes
+ *
+ * @description This class is a viewmodel used to display raw data from sensors
+ *
+ * @property RawDataModel object used to encapsulate backend data
+ * @property rawDataLinearLayout LinearLayout holding all of the raw data textviews
+ * @constructor NA
+ */
+
 class RawDataViewModel : Fragment() {
 
-    lateinit var rawDataLinearLayout: LinearLayout
-
-    lateinit var temperatureTextView: TextView
-    lateinit var pressureTextView: TextView
-    lateinit var humidityTextView: TextView
-    lateinit var rollTextView: TextView
-    lateinit var pitchTextView: TextView
-    lateinit var yawTextView: TextView
-
     var RawDataModel = RawDataModel()
+
+    lateinit var rawDataLinearLayout: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
+    /**
+     * Creating and filling the view with graphs
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,8 +42,6 @@ class RawDataViewModel : Fragment() {
 
         RawDataModel.initSettings(requireActivity())
         RawDataModel.startTimer(this, rawDataLinearLayout)
-
-
 
         return view
     }

@@ -5,6 +5,11 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.NavHostFragment
 
+/**
+ * @brief Main activity of the class
+ *
+ * @description Used to set default settings
+ */
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         getPreferences(MODE_PRIVATE)

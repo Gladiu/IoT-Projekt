@@ -9,7 +9,12 @@ import android.widget.Button
 import androidx.navigation.Navigation
 
 
-class menu : Fragment() {
+/**
+ * @brief Main Menu
+ *
+ * @description Main Menu of the application. It redirects to desired fragments
+ */
+class Menu : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

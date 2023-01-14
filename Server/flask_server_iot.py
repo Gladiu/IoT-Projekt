@@ -30,7 +30,6 @@ def change_def_units(units_to_change):
 
 @app.route('/get/DataStructs', methods=['GET'])
 def get_data_structs():
-    headers = {'Content-Type': 'application/json'}
     data = global_DataStructure
     data = json.dumps(data)
     data = subprocess.check_output(['python', 'process_temperature.py', data])
@@ -110,9 +109,9 @@ def get_leds():
             data = {
             "x": x,
             "y": y,
-            "R": r,
-            "G": g,
-            "B": b
+            "r": r,
+            "g": g,
+            "b": b
             }
             leds_state.append(data)
 
@@ -129,9 +128,9 @@ def post_led_colors():
         for led_data in data:
             x = led_data['x']
             y = led_data['y']
-            r = led_data['R']
-            g = led_data['G']
-            b = led_data['B']
+            r = led_data['r']
+            g = led_data['g']
+            b = led_data['b']
             sense.set_pixel(x, y, r, g, b)
         return make_response(json.dumps([{"Result": 1}]), headers) 
     except Exception as e:

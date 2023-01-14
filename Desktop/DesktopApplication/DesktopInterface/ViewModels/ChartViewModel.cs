@@ -36,6 +36,8 @@ namespace DesktopInterface.ViewModels
 
         private PlotModel? _plot;
 
+        List<DataStruct>? _dataStructs;
+
         public PlotModel? Plot 
         { 
             get 
@@ -102,6 +104,7 @@ namespace DesktopInterface.ViewModels
             set 
             {
                 _units = value;
+                NotifyOfPropertyChange(() => Units);
             }
         }
 
@@ -144,6 +147,7 @@ namespace DesktopInterface.ViewModels
             {
                 _selectedType = _dataTypes[0];
                 var selectedtype = _dataTypes.FirstOrDefault();
+                _dataStructs = dataStructs;
                 ChangePlottedData(selectedtype);
             }
             DispatchTimer();
@@ -151,7 +155,7 @@ namespace DesktopInterface.ViewModels
 
         private void UpdateData()
         {
-            ApiHelper.GetDataObjectsList("index.php").ContinueWith(result =>
+            ApiHelper.GetDataObjectsList("get/DataObjects").ContinueWith(result =>
             {
                 var dataObjects = result.Result;
                 foreach (var dataObject in dataObjects)
@@ -221,6 +225,8 @@ namespace DesktopInterface.ViewModels
                 _createdSamples = 0;
                 Plot = _plot;
             }
+
+            UpdateUnitsValue(type);
         }
 
         private void UpdateUnit() 
@@ -231,6 +237,20 @@ namespace DesktopInterface.ViewModels
             _plot.Axes.Add(new LinearAxis() { Title = $"time[s]", Position = AxisPosition.Bottom });
             _createdSamples = 0;
             Plot = _plot;
+        }
+        private void UpdateUnitsValue(string? type)
+        {
+            if (_dataStructs == null)
+                return;
+
+            foreach (var dataStruct in _dataStructs) 
+            {
+                if (dataStruct.name == type) 
+                {
+                    SelectedUnit = dataStruct.defaultUnit;
+                    Units = dataStruct.units;
+                }
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DataTypes;
+using DesktopInterface.Dtos;
 using DesktopInterface.Models;
 using System;
 using System.Collections.Generic;
@@ -63,7 +64,6 @@ namespace DesktopInterface.Control
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        var dat = await response.Content.ReadAsStringAsync();
                         List<DataStruct>? dataStructs = await response.Content.ReadFromJsonAsync<List<DataStruct>>();
                         return dataStructs;
                     }
@@ -193,7 +193,7 @@ namespace DesktopInterface.Control
                 return null;
             }
         }
-        public static async Task<string?> PostControlRequest(List<KeyValuePair<string, string>> data)
+        public static async Task<string?> PostControlRequest(List<LedDto> data)
         {
             string? responseText = null;
 
@@ -202,9 +202,9 @@ namespace DesktopInterface.Control
                 using (HttpClient client = new HttpClient())
                 {
                     string url = $"{baseUrl}/post/Leds";
-                    var requestData = new FormUrlEncodedContent(data);
+                    //var requestData = new FormUrlEncodedContent(data);
                     // Sent POST request
-                    var result = await client.PostAsync(url, requestData);
+                    var result = await client.PostAsJsonAsync(url, data);
                     // Read response content
                     responseText = await result.Content.ReadAsStringAsync();
                 }

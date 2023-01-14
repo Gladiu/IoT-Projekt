@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using DesktopInterface.Control;
+using DesktopInterface.Dtos;
 using DesktopInterface.Models;
 using System.Collections.Generic;
 using System.Windows;
@@ -12,8 +13,6 @@ namespace DesktopInterface.ViewModels
     public class LedControlViewModel : Screen
     {
         private List<List<LedViewModel>> _leds;
-
-        private LedDisplayModel _disp;
 
         private int _r;
 
@@ -53,7 +52,6 @@ namespace DesktopInterface.ViewModels
             _previewColor = new SolidColorBrush(Color.FromRgb((byte)R, (byte)G, (byte)B));
             _displaySizeX = 8;
             _displaySizeY = 8;
-            _disp = new LedDisplayModel();
             ButtonMatrixGrid = new Grid();
             ButtonMatrixGrid.Visibility = Visibility.Visible;
             _leds = new List<List<LedViewModel>>();
@@ -62,7 +60,7 @@ namespace DesktopInterface.ViewModels
                 _leds.Add(new List<LedViewModel>());
                 for (int y = 0; y < DisplaySizeY; y++)
                 {
-                    _leds[x].Add(new LedViewModel());
+                    _leds[x].Add(new LedViewModel(x, y));
                 }
             }
             LedCommands = new List<List<ButtonCommand>>();
@@ -74,7 +72,7 @@ namespace DesktopInterface.ViewModels
                     var led = _leds[x][y];
                     LedCommands[x].Add(
                         new ButtonCommand(
-                            () => led.SetViewColor(R, G, B)));
+                            () => { led.SetViewColor(R, G, B); }));
                 }
             }
         }
@@ -91,7 +89,7 @@ namespace DesktopInterface.ViewModels
 
         public async void SendCommand()
         {
-            _ = await ApiHelper.PostControlRequest(_disp.GetControlPostData());
+            _ = await ApiHelper.PostControlRequest(GetControlPostData());
         }
 
         public async void ClearCommand() 
@@ -101,12 +99,40 @@ namespace DesktopInterface.ViewModels
                 for (int y = 0; y < DisplaySizeY; y++)
                     Leds[x][y].ClearViewColor();
             // Send request to clear device
-            _ = await ApiHelper.PostControlRequest(_disp.GetClearPostData());
+            _ = await ApiHelper.PostControlRequest(GetClearPostData());
         }
 
         private void ModelToBrush()
         {
             PreviewColor = new SolidColorBrush(Color.FromRgb((byte)R, (byte)G, (byte)B));
+        }
+
+        private List<LedDto> GetControlPostData()
+        {
+            var postData = new List<LedDto>();
+            for (int i = 0; i < DisplaySizeX; i++)
+            {
+                for (int j = 0; j < DisplaySizeY; j++)
+                {
+                    if (Leds[i][j]._model.ColorNotNull())
+                        postData.Add(new LedDto(Leds[i][j]._model));
+                }
+            }
+            return postData;
+        }
+
+        public List<LedDto> GetClearPostData()
+        {
+            List<LedDto> clearData = new();
+            for (int i = 0; i < DisplaySizeX; i++)
+            {
+                for (int j = 0; j < DisplaySizeY; j++)
+                {
+                    clearData.Add(new LedDto(i, j));
+                }
+            }
+
+            return clearData;
         }
     }
 }

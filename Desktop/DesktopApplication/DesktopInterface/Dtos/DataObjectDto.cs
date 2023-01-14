@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataTypes.Dtos
+﻿
+namespace DesktopInterface.Dtos
 {
     public class DataObjectDto
     {

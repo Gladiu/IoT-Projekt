@@ -1,4 +1,6 @@
-﻿namespace DataTypes.Dtos
+﻿using System.Collections.Generic;
+
+namespace DesktopInterface.Dtos
 {
     public class DataStructDto
     {

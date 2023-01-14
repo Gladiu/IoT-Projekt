@@ -16,8 +16,8 @@ namespace DesktopInterface.ViewModels
 {
     public class LedViewModel : INotifyPropertyChanged
     {
-        private Led _model;  //!< LED model
-        private SolidColorBrush _nullColor = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)); //!< Disabled LED color
+        public Led _model;  //!< LED model
+        private SolidColorBrush _nullColor = new SolidColorBrush(Color.FromRgb(0, 0, 0)); //!< Disabled LED color
 
         public SolidColorBrush ViewColor  //!< LED color property: presenting model as brush 
         {
@@ -28,9 +28,9 @@ namespace DesktopInterface.ViewModels
         /**
          * @brief Defualt constructor
          */
-        public LedViewModel()
+        public LedViewModel(int x, int y)
         {
-            _model = new Led();
+            _model = new Led(x, y);
         }
 
         /**

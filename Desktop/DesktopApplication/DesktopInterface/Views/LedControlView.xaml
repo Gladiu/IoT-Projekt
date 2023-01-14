@@ -59,7 +59,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Name="GridData" Visibility="Visible" Grid.Row="0" Margin="20"/>
+        <Grid Name="GridData" Visibility="Visible" Grid.Row="0" Margin="20" GotMouseCapture="GridData_GotMouseCapture"/>
 
         <StackPanel  Grid.Row="1" VerticalAlignment="Center" Margin="20,0">
             <DockPanel>
@@ -97,7 +97,7 @@
                     BorderThickness="2"
                     Background="{Binding PreviewColor}"/>
             <Button x:Name="SendCommand" Grid.Column="2" Margin="10" Padding="5"
-                    FontSize="15">
+                    FontSize="15" Click="SendCommand_Click">
                 SEND
             </Button>
         </Grid>

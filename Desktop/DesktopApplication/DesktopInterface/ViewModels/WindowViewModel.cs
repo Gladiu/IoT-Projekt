@@ -23,6 +23,7 @@ namespace DesktopInterface.ViewModels
         }
         public WindowViewModel()
         {
+            DataTypes = new List<DataStruct>();
             ApiHelper.GetDataStructsList("get/DataStructs").ContinueWith(result => 
             {
                 DataTypes = result.Result;

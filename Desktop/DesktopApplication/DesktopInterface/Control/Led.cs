@@ -12,14 +12,14 @@ namespace DesktopInterface.Control
 
         public int y { get; set; }
 
-        private SolidColorBrush _nullColor = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)); //!< Disabled LED color
+        private SolidColorBrush _nullColor = new SolidColorBrush(Color.FromRgb(0, 0, 0)); // Not light up LED
 
         public Led()
         {
             R = 0;
             G = 0;
             B = 0;
-            x = 0; 
+            x = 0;
             y = 0;
         }
         public Led(int x, int y)
@@ -35,8 +35,7 @@ namespace DesktopInterface.Control
         {
             if (ColorNotNull())
             {
-                var A = (byte)((R! + G! + B!) / 3);
-                return new SolidColorBrush(Color.FromArgb(A, (byte)R!, (byte)G!, (byte)B!));
+                return new SolidColorBrush(Color.FromRgb((byte)R!, (byte)G!, (byte)B!));
             }
             else
             {
@@ -52,7 +51,7 @@ namespace DesktopInterface.Control
 
         public bool ColorNotNull()
         {
-            return (R != null) & (G != null) & (B != null);
+            return R != null & G != null & B != null;
         }
 
         public void Clear()

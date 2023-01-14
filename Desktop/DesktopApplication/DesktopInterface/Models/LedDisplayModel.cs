@@ -9,10 +9,10 @@
  */
 
 using DesktopInterface.Control;
-using Newtonsoft.Json.Linq;
+using DesktopInterface.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text.Json;
 
 namespace DesktopInterface.Models
 {
@@ -45,46 +45,47 @@ namespace DesktopInterface.Models
         }
 
         /**
-         * Conversion method: LED x-y position to position/color data in JSON format
+         * Conversion method: LED x-y position to position/color data to Dto
          * @param x LED horizontal position in display
          * @param y LED vertical position in display
-         * @return Position/color data in JSON format: [x,y,r,g,b] (x,y: 0-7; r,g,b: 0-255)
+         * @return Position/color data in LedDto format
          */
-        private JArray IndexToJsonArray(int x, int y)
+        private LedDto GetLedDto(int x, int y)
         {
-            JArray array = new JArray();
+            LedDto led = new LedDto(x, y);
             try
             {
-                array.Add(x);
-                array.Add(y);
-                array.Add(_model[x, y].R);
-                array.Add(_model[x, y].G);
-                array.Add(_model[x, y].B);
+                led.x = x;
+                led.y = y;
+                led.R = _model[x, y].R;
+                led.B = _model[x, y].B;
+                led.G = _model[x, y].G;
             }
-            catch (JsonException e)
+            catch (Exception e)
             {
                 Trace.TraceError(e.Message);
             }
-            return array;
+            return led;
         }
 
         /**
          * @brief Generate HTTP POST request parameters for LED display control via IoT server script
          * @return HTTP POST request parameters as Key-Value pairs
          */
-        public List<KeyValuePair<string, string>> GetControlPostData()
+        public List<LedDto> GetControlPostData()
         {
-            var postData = new List<KeyValuePair<string, string>>();
+            var postData = new List<LedDto>();
             for (int i = 0; i < SizeX; i++)
             {
                 for (int j = 0; j < SizeY; j++)
                 {
                     if (_model[i, j].ColorNotNull())
-                        postData.Add(
-                            new KeyValuePair<string, string>(
-                                "LED" + i.ToString() + j.ToString(),
-                                IndexToJsonArray(i, j).ToString()
-                                ));
+                        postData.Add(GetLedDto(i, j));
+                        //postData.Add(
+                        //    new KeyValuePair<string, string>(
+                        //        "LED" + i.ToString() + j.ToString(),
+                        //        IndexToJsonArray(i, j).ToString()
+                        //        ));
                 }
             }
             return postData;
@@ -94,21 +95,17 @@ namespace DesktopInterface.Models
          * @brief Generate HTTP POST request parameters for clearing LED display via IoT server script
          * @return HTTP POST request parameters as Key-Value pairs
          */
-        List<KeyValuePair<string, string>>? clearData;
-        public List<KeyValuePair<string, string>> GetClearPostData()
+        List<LedDto>? clearData;
+        public List<LedDto> GetClearPostData()
         {
             if (clearData == null)
             {
-                clearData = new List<KeyValuePair<string, string>>();
+                clearData = new List<LedDto>();
                 for (int i = 0; i < SizeX; i++)
                 {
                     for (int j = 0; j < SizeY; j++)
                     {
-                        clearData.Add(
-                            new KeyValuePair<string, string>(
-                                "LED" + i.ToString() + j.ToString(),
-                                "[" + i.ToString() + "," + j.ToString() + ",0,0,0]"
-                                ));
+                        clearData.Add(new LedDto(i, j));
                     }
                 }
             }

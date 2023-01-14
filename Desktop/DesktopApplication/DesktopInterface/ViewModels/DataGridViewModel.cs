@@ -104,6 +104,7 @@ namespace DesktopInterface.ViewModels
         }
         private void DispatchTimer() 
         {
+            _timer.Stop();
             _timer.Tick += new EventHandler(UpdateTimer_Tick);
             int interval = (int)_samplingTime;
             _timer.Interval = new TimeSpan(0, 0, 0, 0, interval);

@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentActivity
  * @property sampleTime default sample time
  */
 class SettingsModel {
-    var IP:String = "https://b6bd4311-6494-495a-a73c-25ae508bb185.mock.pstmn.io"
+    var IP:String = "http://192.168.1.5:5000"
     var sampleTime: Long = 100L
 
 

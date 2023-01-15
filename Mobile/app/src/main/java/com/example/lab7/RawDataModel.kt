@@ -54,7 +54,7 @@ class RawDataModel {
             url = currentActivity.getPreferences(Context.MODE_PRIVATE).getString("IP","")!!
         }
         catch (exc: Throwable){} // we shouldnt ever get here, if we do its issue with settings
-        url += "/get/DataObjects"
+        url += "/get/DataStructs"
 
         cycleTime = currentActivity.getPreferences(Context.MODE_PRIVATE).getLong("sampleTime",0)
 

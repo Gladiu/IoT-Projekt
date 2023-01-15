@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         getPreferences(MODE_PRIVATE)
             .edit()
-            .putString("IP", "https://b6bd4311-6494-495a-a73c-25ae508bb185.mock.pstmn.io")
+            .putString("IP", "http://192.168.1.5:5000")
             .commit()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

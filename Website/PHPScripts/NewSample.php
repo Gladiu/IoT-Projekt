@@ -21,6 +21,20 @@ $meas2->value = rand(1000, 1030);
 
 $result = array($meas1, $meas2);
 
-echo json_encode($result);
+if(!isset($_GET['ID'])) 
+{
+	echo json_encode($result);
+}
+else
+{
+	if($_GET['ID'] == 'temperature')
+	{
+		echo json_encode($result[0]);
+	}
+	if($_GET['ID'] == 'preassure')
+	{
+		echo json_encode($result[1]);
+	}
+}
 
 ?>

@@ -14,7 +14,7 @@ import androidx.navigation.Navigation
  *
  * @description Main Menu of the application. It redirects to desired fragments
  */
-class Menu : Fragment() {
+class menu : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

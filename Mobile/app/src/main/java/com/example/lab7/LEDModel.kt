@@ -76,9 +76,9 @@ class LEDModel {
             var currentJsonObject = JSONObject()
             currentJsonObject.put("x", colorData[id].x)
             currentJsonObject.put("y", colorData[id].y)
-            currentJsonObject.put("R", colorData[id].R)
-            currentJsonObject.put("G", colorData[id].G)
-            currentJsonObject.put("B", colorData[id].B)
+            currentJsonObject.put("r", colorData[id].R)
+            currentJsonObject.put("g", colorData[id].G)
+            currentJsonObject.put("b", colorData[id].B)
             JSONData.put(currentJsonObject)
         }
 
@@ -121,9 +121,9 @@ class LEDModel {
                     val currentY = response.getJSONObject(index).getInt("y")
                     try {
                         val currentIndex = colorData.indexOf(colorData.find{ it.x == currentX && it.y == currentY }!!)
-                        colorData[currentIndex].R = response.getJSONObject(index).getInt("R")
-                        colorData[currentIndex].G = response.getJSONObject(index).getInt("G")
-                        colorData[currentIndex].B = response.getJSONObject(index).getInt("B")
+                        colorData[currentIndex].R = response.getJSONObject(index).getInt("r")
+                        colorData[currentIndex].G = response.getJSONObject(index).getInt("g")
+                        colorData[currentIndex].B = response.getJSONObject(index).getInt("b")
                     }
                     catch (exc: Throwable){} // we shouldnt ever get here, if we do its issue with server
                 }

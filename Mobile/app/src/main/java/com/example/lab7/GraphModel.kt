@@ -1,7 +1,11 @@
 package com.example.lab7
 
+import android.app.ActionBar.LayoutParams
 import android.content.Context
 import android.graphics.Color
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.android.volley.Request
@@ -14,6 +18,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import androidx.lifecycle.lifecycleScope
 import com.android.volley.RequestQueue
+import com.jjoe64.graphview.GraphView
 import kotlinx.coroutines.*
 
 /**
@@ -25,9 +30,8 @@ import kotlinx.coroutines.*
  * @property lastTime last recorded time
  * @property cycleTime cycle time for updating the graph
  * @property url url that provides data for graph
- * @property temperatureSeries data series holding temperature data
- * @property pressureSeries data series holding pressure data
- * @property humiditySeries data series holding humidity data
+ * @property currentData index of currentlt displayed Series
+ * @property measurementSeries series holding Series  data
  * @property volleyQueue queue used to make GET requests
  * @constructor Initializes empty model
  */
@@ -35,31 +39,15 @@ class GraphModel {
     var currentTime = 1.0
     var lastTime = 0.0
 
+    var currentData = 0
+
     var cycleTime = 0L
     var url = ""
 
-    var temperatureSeries: LineGraphSeries<DataPoint>
-    var pressureSeries: LineGraphSeries<DataPoint>
-    var humiditySeries: LineGraphSeries<DataPoint>
+    var measurementSeries: MutableList<GraphData> = mutableListOf<GraphData>()
 
     lateinit var volleyQueue: RequestQueue
 
-    /**
-     * Initializes empty model
-     */
-    init {
-
-        temperatureSeries = LineGraphSeries(arrayOf(DataPoint(0.0, 0.0)))
-        pressureSeries = LineGraphSeries(arrayOf(DataPoint(0.0, 0.0)))
-        humiditySeries = LineGraphSeries(arrayOf(DataPoint(0.0, 0.0)))
-        temperatureSeries.title = "Temperature [C]"
-        pressureSeries.title = "Pressure [hPa]"
-        humiditySeries.title = "Humidity [%]"
-
-        temperatureSeries.color = Color.BLUE
-        pressureSeries.color = Color.GREEN
-        humiditySeries.color = Color.RED
-    }
 
     /**
      * Initializes settings that need activity
@@ -80,13 +68,14 @@ class GraphModel {
     /**
      * Starts updating data graphs on a timer
      */
-    fun startTimer(currentFragment: Fragment) {
+    fun startTimer(currentFragment: Fragment, graphView: GraphView) {
         val timerName = currentFragment.lifecycleScope.launch(Dispatchers.IO) {
             while (isActive) {
                 currentFragment.lifecycleScope.launch {
 
                     val jsonObjectRequest = JsonArrayRequest(
                         Request.Method.GET,
+                        //"http://217.182.75.146/index.php",
                         url,
                         null,
                         { response ->
@@ -94,33 +83,37 @@ class GraphModel {
 
                                 for (index in 0 until response.length()) {
                                     val currentJSONOBject = response.getJSONObject(index)
-                                    if (currentJSONOBject.getString("name") == "temperature") {
-                                        temperatureSeries.appendData(
+                                    val child = measurementSeries.find { it.name.contains(currentJSONOBject.getString("name"), ignoreCase = true)}
+                                    if (child != null){
+                                        val currentIndex = measurementSeries.indexOf(child)
+                                        var newValue =  response.getJSONObject(index).getDouble("value")
+                                        when (measurementSeries[currentIndex].unit) {
+                                            "F" -> {
+                                                newValue = newValue*1.8 + 32
+                                            }
+                                            "Pa" -> {newValue=newValue/100}
+                                            "rad" -> {newValue = (newValue/360)*2*3.14}
+                                            else -> {}
+                                        }
+                                        measurementSeries[currentIndex].measurement.appendData(
                                             DataPoint(
                                                 currentTime / 1000,
-                                                response.getJSONObject(index).getDouble("value")
+                                                newValue
                                             ),
                                             false, 10
                                         )
                                     }
-                                    if (currentJSONOBject.getString("name") == "pressure") {
-                                        pressureSeries.appendData(
-                                            DataPoint(
-                                                currentTime / 1000,
-                                                response.getJSONObject(index).getDouble("value")
-                                            ),
-                                            false, 10
-                                        )
-                                    }
+                                    else{
+                                        val newGraphData = GraphData(LineGraphSeries(arrayOf(DataPoint(0.0, 0.0))),
+                                                                        currentJSONOBject.getString("name"),
+                                                                        currentJSONOBject.getString("defaultUnit") )
+                                        newGraphData.measurement.title = newGraphData.name + " ["+ newGraphData.unit + "]"
+                                        newGraphData.measurement.color = Color.BLUE
 
-                                    if (currentJSONOBject.getString("name") == "humidity") {
-                                        humiditySeries.appendData(
-                                            DataPoint(
-                                                currentTime / 1000,
-                                                response.getJSONObject(index).getDouble("value")
-                                            ),
-                                            false, 10
-                                        )
+                                        measurementSeries.add(newGraphData)
+                                        graphView.removeAllSeries()
+                                        graphView.addSeries(measurementSeries[0].measurement)
+
                                     }
                                     lastTime = currentTime
                                 }
@@ -138,4 +131,55 @@ class GraphModel {
             }
         }
     }
+
+    /**
+     * Increments index of currently displayed graph
+     */
+    fun cycleCurrentData(graphView: GraphView){
+        currentData++
+        if (currentData >= measurementSeries.size){
+            currentData = 0
+        }
+        graphView.removeAllSeries()
+        graphView.addSeries(measurementSeries[currentData].measurement)
+    }
+
+    /**
+     * Changes units of currently displayed graph
+     */
+    fun changeUnits(graphView: GraphView){
+
+        var newUnit = ""
+        measurementSeries[currentData].measurement = LineGraphSeries(arrayOf(DataPoint(0.0, 0.0)))
+
+        when (measurementSeries[currentData].unit) {
+            "C" -> {
+                newUnit = "F"
+            }
+            "F" -> {
+                newUnit = "C"
+            }
+            "Pa" -> {
+                newUnit = "hPa"
+            }
+            "hPa" -> {
+                newUnit = "Pa"
+            }
+            "deg" -> {
+                newUnit = "rad"
+            }
+            "rad" -> {
+                newUnit = "deg"
+            }
+            else -> {
+                newUnit = measurementSeries[currentData].unit
+            }
+        }
+        measurementSeries[currentData].unit = newUnit
+        measurementSeries[currentData].measurement.title = measurementSeries[currentData].name + " ["+ measurementSeries[currentData].unit + "]"
+        graphView.removeAllSeries()
+        graphView.addSeries(measurementSeries[currentData].measurement)
+
+    }
+
 }

@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 
 /**
  * @brief Data class for RawData
@@ -27,6 +28,7 @@ import kotlinx.coroutines.launch
  * @property cycleTime cycle time for updating the graph
  * @property url url that provides data for graph
  * @property volleyQueue queue used to make GET requests
+ * @property measurementsList lists that holds all data about measurements
  * @constructor Initializes empty model
  */
 
@@ -40,6 +42,7 @@ class RawDataModel {
 
     lateinit var volleyQueue: RequestQueue
 
+    val measurementsList: MutableList<RawDataData> = mutableListOf<RawDataData>()
 
     /**
      * Initializes settings that need activity
@@ -67,24 +70,53 @@ class RawDataModel {
 
                     val jsonObjectRequest = JsonArrayRequest(
                         Request.Method.GET,
-                        "http://217.182.75.146/index.php", // TODO: CHANGE
+                        url,
+                        //"http://217.182.75.146/index.php", // TODO: CHANGE
                         null,
                         { response ->
                             if (lastTime < currentTime) {
 
                                 for (index in 0 until response.length()) {
                                     val currentJSONOBject = response.getJSONObject(index)
-                                    val child = linearLayout.children.find { it is TextView && it.text.contains(currentJSONOBject.getString("name"), ignoreCase = true)}
-                                    if (child != null && child is TextView){
-                                        child.text = currentJSONOBject.getString("name") + ": " + currentJSONOBject.getDouble("value").toString()
+                                    val currentRawData = measurementsList.find { it.name.contains(currentJSONOBject.getString("name"), ignoreCase = true)}
+                                    if ( currentRawData!= null){
+                                        var currentIndex = measurementsList.indexOf(currentRawData)
+                                        var child = linearLayout.children.find { it is TextView && it.text.contains(currentJSONOBject.getString("name"), ignoreCase = true)}
+                                        child = child as TextView
+                                        var newValue = currentJSONOBject.getDouble("value").toDouble()
+                                        when (measurementsList[currentIndex].unit) {
+                                            "F" -> {
+                                                newValue = newValue*1.8 + 32
+                                            }
+                                            "Pa" -> {newValue=newValue/100}
+                                            "rad" -> {newValue = (newValue/360)*2*3.14}
+                                            else -> {}
+                                        }
+                                        var newValueString = DecimalFormat("#.###").format(newValue)
+                                        child.text = measurementsList[currentIndex].name + ": " + newValueString + " [" + measurementsList[currentIndex].unit + "]"
                                     }
                                     else{
                                         val newTextView = TextView(linearLayout.context)
+                                        var newRawData = RawDataData( currentJSONOBject.getDouble("value"),
+                                                                        currentJSONOBject.getString("name"),
+                                                                        currentJSONOBject.getString("defaultUnit")
+                                                                        )
+                                        measurementsList.add(newRawData)
                                         newTextView.text =
                                             currentJSONOBject.getString("name") + ": " + currentJSONOBject.getDouble(
                                                 "value"
                                             ).toString()
+                                        newTextView.text = newRawData.name  + ": " + newRawData.value.toString() + " [" + newRawData.unit + "]"
                                         newTextView.textSize = 20F
+
+                                        var currentIndex = measurementsList.indexOf(
+                                                                            measurementsList.find {
+                                                                                it.name.contains(currentJSONOBject.getString("name"),
+                                                                                    ignoreCase = true)}
+                                                                            )
+                                        newTextView.setOnClickListener {
+                                            changeUnits(currentIndex)
+                                        }
                                         linearLayout.addView(newTextView)
                                     }
                                     lastTime = currentTime
@@ -103,5 +135,36 @@ class RawDataModel {
                 delay(cycleTime)
             }
         }
+    }
+
+    /**
+     * Changes unit for measurement with selected index in measurementList
+     */
+    fun changeUnits(index:Int){
+        var newUnit = ""
+        when (measurementsList[index].unit) {
+            "C" -> {
+                newUnit = "F"
+            }
+            "F" -> {
+                newUnit = "C"
+            }
+            "Pa" -> {
+                newUnit = "hPa"
+            }
+            "hPa" -> {
+                newUnit = "Pa"
+            }
+            "deg" -> {
+                newUnit = "rad"
+            }
+            "rad" -> {
+                newUnit = "deg"
+            }
+            else -> {
+                newUnit = measurementsList[index].unit
+            }
+        }
+        measurementsList[index].unit = newUnit
     }
 }

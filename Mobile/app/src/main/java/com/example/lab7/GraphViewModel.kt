@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
@@ -31,9 +32,8 @@ class GraphViewModel : Fragment() {
 
     val GraphModelObject: GraphModel = GraphModel()
 
-    lateinit var graphTemperature: GraphView
-    lateinit var graphPressure: GraphView
-    lateinit var graphHumidity: GraphView
+    lateinit var graphView : GraphView
+    lateinit var changeUnitsButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,27 +51,23 @@ class GraphViewModel : Fragment() {
 
         GraphModelObject.initSettings(this.requireActivity())
 
-        graphTemperature = view.findViewById(R.id.graphTemperature)
-        graphPressure = view.findViewById(R.id.graphPressure)
-        graphHumidity = view.findViewById(R.id.graphHumidity)
+        graphView = view.findViewById(R.id.graphView)
 
-        GraphModelObject.startTimer(this)
+        changeUnitsButton = view.findViewById(R.id.changeUnitsButton)
 
-        graphTemperature.addSeries(GraphModelObject.temperatureSeries)
-        graphPressure.addSeries(GraphModelObject.pressureSeries)
-        graphHumidity.addSeries(GraphModelObject.humiditySeries)
+        graphView.legendRenderer.isVisible = true
+        graphView.legendRenderer.setFixedPosition(4, 5);
+        graphView.legendRenderer.setTextSize(20F);
 
-        graphTemperature.legendRenderer.setVisible(true);
-        graphPressure.legendRenderer.setVisible(true);
-        graphHumidity.legendRenderer.setVisible(true);
+        graphView.setOnClickListener {
+                GraphModelObject.cycleCurrentData(graphView)
+        }
 
-        graphTemperature.legendRenderer.setFixedPosition(4, 5);
-        graphPressure.legendRenderer.setFixedPosition(4, 5);
-        graphHumidity.legendRenderer.setFixedPosition(4, 5);
+        changeUnitsButton.setOnClickListener {
+            GraphModelObject.changeUnits(graphView)
+        }
 
-        graphTemperature.legendRenderer.setTextSize(20F);
-        graphPressure.legendRenderer.setTextSize(20F);
-        graphHumidity.legendRenderer.setTextSize(20F);
+        GraphModelObject.startTimer(this, graphView)
 
         return view
 

@@ -1,9 +1,10 @@
 ﻿using Caliburn.Micro;
 using DesktopInterface.Control;
+using DesktopInterface.Models;
 
 namespace DesktopInterface.ViewModels
 {
-    public class EntryViewModel : Screen
+    public class EntryViewModel : Screen, IConductorExtension
     {
         private string? _url = "https://b6bd4311-6494-495a-a73c-25ae508bb185.mock.pstmn.io";
 
@@ -113,6 +114,11 @@ namespace DesktopInterface.ViewModels
             SamplesCount = ApplicationConfiguration.SamplesCount;
             SamplingTime = ApplicationConfiguration.SamplingTime;
             ApiHelper.UpdateApiClient();
+        }
+
+        public void DisposeOfContents()
+        {
+            // Intentionally left empty
         }
     }
 }

@@ -4,15 +4,17 @@ namespace DesktopInterface.Dtos
 {
     public class LedDto
     {
-        public int? x { get; set; }
+        public int x { get; set; }
 
-        public int? y { get; set; }
+        public int y { get; set; }
 
-        public int? R { get; set; }
+        public int R { get; set; }
 
-        public int? G { get; set; }
+        public int G { get; set; }
 
-        public int? B { get; set; }
+        public int B { get; set; }
+
+        public LedDto() { }
 
         public LedDto(int x, int y) 
         {
@@ -34,9 +36,9 @@ namespace DesktopInterface.Dtos
         {
             x = led.x;
             y = led.y;
-            R = led.R;
-            G = led.G;
-            B = led.B;
+            R = led.R.Value!;
+            G = led.G.Value!;
+            B = led.B.Value!;
         }
     }
 }

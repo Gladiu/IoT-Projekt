@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace DesktopInterface.ViewModels
 {
-    public class LedControlViewModel : Screen
+    public class LedControlViewModel : Screen, IConductorExtension
     {
         private List<List<LedViewModel>> _leds;
 
@@ -20,9 +20,9 @@ namespace DesktopInterface.ViewModels
 
         private int _b;
 
-        private int _displaySizeX;
+        private readonly int _displaySizeX;
 
-        private int _displaySizeY;
+        private readonly int _displaySizeY;
 
         private SolidColorBrush _previewColor;
 
@@ -60,7 +60,7 @@ namespace DesktopInterface.ViewModels
                 _leds.Add(new List<LedViewModel>());
                 for (int y = 0; y < DisplaySizeY; y++)
                 {
-                    _leds[x].Add(new LedViewModel(x, y));
+                    _leds[x].Add(new LedViewModel(WindowViewModel.Leds[x * 8 + y]));
                 }
             }
             LedCommands = new List<List<ButtonCommand>>();
@@ -75,6 +75,7 @@ namespace DesktopInterface.ViewModels
                             () => { led.SetViewColor(R, G, B); }));
                 }
             }
+
         }
 
         public Binding GetCommandBinding(int x, int y)
@@ -89,7 +90,7 @@ namespace DesktopInterface.ViewModels
 
         public async void SendCommand()
         {
-            _ = await ApiHelper.PostControlRequest(GetControlPostData());
+            _ = await ApiHelper.PostLeds(GetControlPostData());
         }
 
         public async void ClearCommand() 
@@ -99,7 +100,7 @@ namespace DesktopInterface.ViewModels
                 for (int y = 0; y < DisplaySizeY; y++)
                     Leds[x][y].ClearViewColor();
             // Send request to clear device
-            _ = await ApiHelper.PostControlRequest(GetClearPostData());
+            _ = await ApiHelper.PostLeds(GetClearPostData());
         }
 
         private void ModelToBrush()
@@ -133,6 +134,11 @@ namespace DesktopInterface.ViewModels
             }
 
             return clearData;
+        }
+
+        public void DisposeOfContents()
+        {
+            // Intentionally left empty
         }
     }
 }

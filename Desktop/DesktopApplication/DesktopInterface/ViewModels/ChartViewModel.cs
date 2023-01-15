@@ -9,10 +9,12 @@ using DataTypes;
 using System.Windows.Threading;
 using OxyPlot.Axes;
 using AxisPosition = OxyPlot.Axes.AxisPosition;
+using DesktopInterface.Models;
+using System.Threading;
 
 namespace DesktopInterface.ViewModels
 {
-    public class ChartViewModel : Screen
+    public class ChartViewModel : Screen, IConductorExtension
     {
         private DispatcherTimer? _timer;
 
@@ -35,8 +37,6 @@ namespace DesktopInterface.ViewModels
         private LineSeries? _data;
 
         private PlotModel? _plot;
-
-        List<DataStruct>? _dataStructs;
 
         public PlotModel? Plot 
         { 
@@ -147,7 +147,6 @@ namespace DesktopInterface.ViewModels
             {
                 _selectedType = _dataTypes[0];
                 var selectedtype = _dataTypes.FirstOrDefault();
-                _dataStructs = dataStructs;
                 ChangePlottedData(selectedtype);
             }
             DispatchTimer();
@@ -155,9 +154,11 @@ namespace DesktopInterface.ViewModels
 
         private void UpdateData()
         {
-            ApiHelper.GetDataObjectsList("get/DataObjects").ContinueWith(result =>
+            ApiHelper.GetDataObjectsList().ContinueWith(task =>
             {
-                var dataObjects = result.Result;
+                if (task.Result == null)
+                    return;
+                var dataObjects = task.Result;
                 foreach (var dataObject in dataObjects)
                 {
                     if (dataObject.name == _selectedType)
@@ -240,10 +241,10 @@ namespace DesktopInterface.ViewModels
         }
         private void UpdateUnitsValue(string? type)
         {
-            if (_dataStructs == null)
+            if (WindowViewModel.DataTypes == null)
                 return;
 
-            foreach (var dataStruct in _dataStructs) 
+            foreach (var dataStruct in WindowViewModel.DataTypes) 
             {
                 if (dataStruct.name == type) 
                 {
@@ -251,6 +252,13 @@ namespace DesktopInterface.ViewModels
                     Units = dataStruct.units;
                 }
             }
+        }
+
+        public void DisposeOfContents()
+        {
+            if (_timer == null)
+                return;
+            _timer.Stop();
         }
     }
 }

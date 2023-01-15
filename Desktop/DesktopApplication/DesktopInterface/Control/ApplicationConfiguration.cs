@@ -1,16 +1,16 @@
-﻿using DataTypes;
+﻿using DesktopInterface.ViewModels;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace DesktopInterface.Control
 {
     public static class ApplicationConfiguration
     {
-        private static string ipAdress = "https://b6bd4311-6494-495a-a73c-25ae508bb185.mock.pstmn.io/";
+        private static string ipAdress = "https:192.168.1.98";
 
-        private static string port = "";
+        private static string port = "5000";
 
         private static string apiVersion = "";
 
@@ -51,7 +51,7 @@ namespace DesktopInterface.Control
             {
                 Config? config = JsonConvert.DeserializeObject<Config>(lines[0]);
                 if (config != null) 
-                { 
+                {
                     IpAdress = config.IpAdress;
                     Port = config.Port;
                     ApiVersion = config.ApiVersion;
@@ -59,6 +59,11 @@ namespace DesktopInterface.Control
                     SamplesCount = config.SamplesCount;
                 }
             }
+        }
+
+        public static async Task UpdateDataTypes() 
+        {
+            WindowViewModel.DataTypes = await ApiHelper.GetDataStructsList();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using DesktopInterface.Dtos;
+using System.Windows.Media;
 
 namespace DesktopInterface.Control
 {
@@ -30,6 +31,16 @@ namespace DesktopInterface.Control
             this.x = x;
             this.y = y;
         }
+
+        public Led(LedDto dto)
+        {
+            R = dto.R;
+            G = dto.G;
+            B = dto.B;
+            this.x = dto.x;
+            this.y = dto.y;
+        }
+
 
         public SolidColorBrush ColorToBrush()
         {

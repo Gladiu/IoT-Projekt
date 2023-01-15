@@ -89,7 +89,7 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="ClearCommand" Grid.Column="0" Margin="10" Padding="5"
-                    FontSize="15">
+                    FontSize="15" Click="ClearCommand_Click">
                 CLEAR
             </Button>
             <Button Grid.Column="1" Margin="10" 

@@ -80,5 +80,10 @@ namespace DesktopInterface.Views
         {
             SendCommand.Background = GreenColor;
         }
+
+        private void ClearCommand_Click(object sender, RoutedEventArgs e)
+        {
+            SendCommand.Background = GreenColor;
+        }
     }
 }

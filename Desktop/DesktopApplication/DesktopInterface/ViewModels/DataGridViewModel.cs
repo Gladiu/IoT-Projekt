@@ -7,10 +7,12 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using DesktopInterface.Models;
 using System.Windows.Data;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace DesktopInterface.ViewModels
 {
-    public class DataGridViewModel : Screen
+    public class DataGridViewModel : Screen, IConductorExtension
     {
         private readonly float _samplingTime;
         private readonly DispatcherTimer _timer;
@@ -93,11 +95,13 @@ namespace DesktopInterface.ViewModels
 
         private void LoadData() 
         {
-            ApiHelper.GetDataObjectsList("get/DataObjects").ContinueWith(task =>
+            ApiHelper.GetDataObjectsList().ContinueWith(task =>
             {
                 if (task.Exception == null)
                 {
-                    DataObjects = new List<DataObject>(task.Result!);
+                    if (task.Result == null)
+                        return;
+                    DataObjects = new List<DataObject>(task.Result);
                 }
             });
 
@@ -123,17 +127,23 @@ namespace DesktopInterface.ViewModels
 
         public void SetDefaultUnits() 
         {
-            ApiHelper.PostSelectedUnits("post/DefaultUnits", SelectedUnit).ContinueWith(task => 
+            ApiHelper.PostSelectedUnits(SelectedUnit).ContinueWith(task => 
             {
-                if (task.Result != null) 
+                if (task.Result != null)
                 {
                     for (int i = 0; i < SelectedUnit?.Count; i++)
                     {
-                        WindowViewModel.DataTypes[i].defaultUnit = SelectedUnit[i];
+                        WindowViewModel.DataTypes[i]!.defaultUnit = SelectedUnit[i];
                     }
                 }
             });
+        }
 
+        public void DisposeOfContents()
+        {
+            if (_timer == null)
+                return;
+            _timer.Stop();
         }
     }
 }

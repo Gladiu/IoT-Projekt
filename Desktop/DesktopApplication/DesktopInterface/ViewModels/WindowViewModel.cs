@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using DataTypes;
 using DesktopInterface.Control;
+using System.Net;
+using DesktopInterface.Models;
 
 namespace DesktopInterface.ViewModels
 {
-    public class WindowViewModel : Conductor<object>
+    public class WindowViewModel : Conductor<IConductorExtension>
     {
-        public static List<DataStruct>? DataTypes;
+        public static List<DataStruct>? DataTypes = new List<DataStruct>();
+
+        public static List<Led>? Leds = new List<Led>();
+
         private string _activeTab = "Entry";
+
         public string ActiveTab
         {
             get 
@@ -23,11 +29,22 @@ namespace DesktopInterface.ViewModels
         }
         public WindowViewModel()
         {
-            DataTypes = new List<DataStruct>();
-            ApiHelper.GetDataStructsList("get/DataStructs").ContinueWith(result => 
+            ApiHelper.GetDataStructsList().ContinueWith(task => 
             {
-                DataTypes = result.Result;
+                DataTypes = task.Result;
             });
+
+            ApiHelper.GetLeds().ContinueWith(task =>
+            {
+                if (task.Result != null) 
+                {
+                    foreach (var ledDto in task.Result) 
+                    {
+                        Leds!.Add(new Led(ledDto));
+                    }
+                }
+            });
+
             LoadEntryView("Entry");
         }
         public bool CanLoadEntryView(string activeTab) 
@@ -36,12 +53,14 @@ namespace DesktopInterface.ViewModels
         }
         public void LoadEntryView(string activeTab)
         {
+            if (ActiveItem != null)
+                ActiveItem.DisposeOfContents();
             ActivateItemAsync(new EntryViewModel()).ContinueWith(result => {
                 if (result.IsCompletedSuccessfully)
                 {
                     ActiveTab = "Entry";
                 }
-            }); ;
+            });
         }
         public bool CanLoadDataGridView(string activeTab)
         {
@@ -49,6 +68,8 @@ namespace DesktopInterface.ViewModels
         }
         public void LoadDataGridView(string activeTab) 
         {
+            if (ActiveItem != null)
+                ActiveItem.DisposeOfContents();
             ActivateItemAsync(new DataGridViewModel(DataTypes)).ContinueWith(result => {
                 if (result.IsCompletedSuccessfully) 
                 {
@@ -62,6 +83,8 @@ namespace DesktopInterface.ViewModels
         }
         public void LoadChartView(string activeTab) 
         {
+            if (ActiveItem != null)
+                ActiveItem.DisposeOfContents();
             ActivateItemAsync(new ChartViewModel(DataTypes)).ContinueWith(result => {
                 if (result.IsCompletedSuccessfully)
                 {
@@ -75,6 +98,8 @@ namespace DesktopInterface.ViewModels
         }
         public void LoadLedControlView(string activeTab)
         {
+            if (ActiveItem != null)
+                ActiveItem.DisposeOfContents();
             ActivateItemAsync(new LedControlViewModel()).ContinueWith(result => {
                 if (result.IsCompletedSuccessfully)
                 {

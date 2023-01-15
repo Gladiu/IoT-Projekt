@@ -10,7 +10,6 @@ using System.Windows.Threading;
 using OxyPlot.Axes;
 using AxisPosition = OxyPlot.Axes.AxisPosition;
 using DesktopInterface.Models;
-using System.Threading;
 
 namespace DesktopInterface.ViewModels
 {
@@ -28,7 +27,7 @@ namespace DesktopInterface.ViewModels
 
         private List<string>? _dataTypes;
 
-        private readonly int _samples;
+        private int _samples;
 
         private float _samplingTime;
 
@@ -124,31 +123,7 @@ namespace DesktopInterface.ViewModels
 
         public ChartViewModel(List<DataStruct>? dataStructs)
         {
-            _samples = ApplicationConfiguration.SamplesCount;
-            _samplingTime = ApplicationConfiguration.SamplingTime;
-            _createdSamples = 0;
-            _dataTypes = new List<string>();
-            if (dataStructs != null)
-            {
-
-                foreach (var data in dataStructs)
-                {
-                    _dataTypes.Add(data.name);
-                }
-                var dataStructsNullable = dataStructs.FirstOrDefault();
-                if (dataStructsNullable != null)
-                {
-                    _units = dataStructsNullable.units;
-                    _selectedUnit = dataStructsNullable.defaultUnit;
-                }
-            }
-
-            if (_dataTypes != null) 
-            {
-                _selectedType = _dataTypes[0];
-                var selectedtype = _dataTypes.FirstOrDefault();
-                ChangePlottedData(selectedtype);
-            }
+            InitChartViewModel(dataStructs);
             DispatchTimer();
         }
 
@@ -259,6 +234,35 @@ namespace DesktopInterface.ViewModels
             if (_timer == null)
                 return;
             _timer.Stop();
+        }
+
+        public void InitChartViewModel(List<DataStruct>? dataStructs) 
+        {
+            _samples = ApplicationConfiguration.SamplesCount;
+            _samplingTime = ApplicationConfiguration.SamplingTime;
+            _createdSamples = 0;
+            _dataTypes = new List<string>();
+            if (dataStructs != null)
+            {
+
+                foreach (var data in dataStructs)
+                {
+                    _dataTypes.Add(data.name);
+                }
+                var dataStructsNullable = dataStructs.FirstOrDefault();
+                if (dataStructsNullable != null)
+                {
+                    _units = dataStructsNullable.units;
+                    _selectedUnit = dataStructsNullable.defaultUnit;
+                }
+            }
+
+            if (_dataTypes.FirstOrDefault() != null)
+            {
+                _selectedType = _dataTypes[0];
+                var selectedtype = _dataTypes.FirstOrDefault();
+                ChangePlottedData(selectedtype);
+            }
         }
     }
 }

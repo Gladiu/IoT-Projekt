@@ -29,21 +29,9 @@ namespace DesktopInterface.ViewModels
         }
         public WindowViewModel()
         {
-            ApiHelper.GetDataStructsList().ContinueWith(task => 
-            {
-                DataTypes = task.Result;
-            });
+            UpdateDataTypes();
 
-            ApiHelper.GetLeds().ContinueWith(task =>
-            {
-                if (task.Result != null) 
-                {
-                    foreach (var ledDto in task.Result) 
-                    {
-                        Leds!.Add(new Led(ledDto));
-                    }
-                }
-            });
+            UpdateLeds();
 
             LoadEntryView("Entry");
         }
@@ -104,6 +92,28 @@ namespace DesktopInterface.ViewModels
                 if (result.IsCompletedSuccessfully)
                 {
                     ActiveTab = "LED";
+                }
+            });
+        }
+
+        public static void UpdateDataTypes() 
+        {
+            ApiHelper.GetDataStructsList().ContinueWith(task =>
+            {
+                DataTypes = task.Result;
+            });
+        }
+
+        public static void UpdateLeds() 
+        {
+            ApiHelper.GetLeds().ContinueWith(task =>
+            {
+                if (task.Result != null)
+                {
+                    foreach (var ledDto in task.Result)
+                    {
+                        Leds!.Add(new Led(ledDto));
+                    }
                 }
             });
         }

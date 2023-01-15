@@ -55,27 +55,29 @@ namespace DesktopInterface.ViewModels
             ButtonMatrixGrid = new Grid();
             ButtonMatrixGrid.Visibility = Visibility.Visible;
             _leds = new List<List<LedViewModel>>();
-            for (int x = 0; x < DisplaySizeX; x++)
+            if (WindowViewModel.Leds.Count == 64)
             {
-                _leds.Add(new List<LedViewModel>());
-                for (int y = 0; y < DisplaySizeY; y++)
+                for (int x = 0; x < DisplaySizeX; x++)
                 {
-                    _leds[x].Add(new LedViewModel(WindowViewModel.Leds[x * 8 + y]));
+                    _leds.Add(new List<LedViewModel>());
+                    for (int y = 0; y < DisplaySizeY; y++)
+                    {
+                        _leds[x].Add(new LedViewModel(WindowViewModel.Leds[x * 8 + y]));
+                    }
+                }
+                LedCommands = new List<List<ButtonCommand>>();
+                for (int x = 0; x < DisplaySizeX; x++)
+                {
+                    LedCommands.Add(new List<ButtonCommand>());
+                    for (int y = 0; y < DisplaySizeY; y++)
+                    {
+                        var led = _leds[x][y];
+                        LedCommands[x].Add(
+                            new ButtonCommand(
+                                () => { led.SetViewColor(R, G, B); }));
+                    }
                 }
             }
-            LedCommands = new List<List<ButtonCommand>>();
-            for (int x = 0; x < DisplaySizeX; x++)
-            {
-                LedCommands.Add(new List<ButtonCommand>());
-                for (int y = 0; y < DisplaySizeY; y++)
-                {
-                    var led = _leds[x][y];
-                    LedCommands[x].Add(
-                        new ButtonCommand(
-                            () => { led.SetViewColor(R, G, B); }));
-                }
-            }
-
         }
 
         public Binding GetCommandBinding(int x, int y)

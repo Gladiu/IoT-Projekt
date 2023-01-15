@@ -6,7 +6,7 @@ namespace DesktopInterface.ViewModels
 {
     public class EntryViewModel : Screen, IConductorExtension
     {
-        private string? _url = "https://b6bd4311-6494-495a-a73c-25ae508bb185.mock.pstmn.io";
+        private string? _url = "http://192.168.1.98:5000";
 
         private string? _port = "";
 
@@ -26,6 +26,7 @@ namespace DesktopInterface.ViewModels
                 {
                     ApplicationConfiguration.IpAdress = _url;
                     ApiHelper.UpdateApiClient();
+                    WindowViewModel.UpdateDataTypes();
                 }
                 NotifyOfPropertyChange(() => Url);
             }
@@ -103,6 +104,8 @@ namespace DesktopInterface.ViewModels
         public void SaveSettings() 
         {
             ApplicationConfiguration.SaveConfiguration();
+            WindowViewModel.UpdateDataTypes();
+            WindowViewModel.UpdateLeds();
         }
 
         public void LoadSettings() 
@@ -114,6 +117,8 @@ namespace DesktopInterface.ViewModels
             SamplesCount = ApplicationConfiguration.SamplesCount;
             SamplingTime = ApplicationConfiguration.SamplingTime;
             ApiHelper.UpdateApiClient();
+            WindowViewModel.UpdateDataTypes();
+            WindowViewModel.UpdateLeds();
         }
 
         public void DisposeOfContents()

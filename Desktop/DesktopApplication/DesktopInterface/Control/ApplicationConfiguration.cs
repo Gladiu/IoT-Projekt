@@ -8,7 +8,7 @@ namespace DesktopInterface.Control
 {
     public static class ApplicationConfiguration
     {
-        private static string ipAdress = "http://192.168.1.98:5000";
+        private static string ipAdress = "http://192.168.1.97:5000";
 
         private static string port = "5000";
 

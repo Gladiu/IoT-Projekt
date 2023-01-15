@@ -33,6 +33,28 @@ namespace DesktopInterface.Views
 
         private void MainGrid_Loaded(object sender, RoutedEventArgs e)
         {
+            InitializeGrid();
+        }
+
+        private void GridData_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            SendCommand.Background = RedColor;
+        }
+
+        private void SendCommand_Click(object sender, RoutedEventArgs e)
+        {
+            SendCommand.Background = GreenColor;
+        }
+
+        private void ClearCommand_Click(object sender, RoutedEventArgs e)
+        {
+            SendCommand.Background = GreenColor;
+        }
+
+        public void InitializeGrid() 
+        {
+            if (WindowViewModel.Leds!.Count == 0)
+                return;
             var LedStyle = (Style)FindResource("LedIndicatorStyle");
             var dataContext = DataContext as LedControlViewModel;
             if (dataContext != null)
@@ -69,21 +91,6 @@ namespace DesktopInterface.Views
                 }
                 dataContext.ButtonMatrixGrid = GridData;
             }
-        }
-
-        private void GridData_GotMouseCapture(object sender, MouseEventArgs e)
-        {
-            SendCommand.Background = RedColor;
-        }
-
-        private void SendCommand_Click(object sender, RoutedEventArgs e)
-        {
-            SendCommand.Background = GreenColor;
-        }
-
-        private void ClearCommand_Click(object sender, RoutedEventArgs e)
-        {
-            SendCommand.Background = GreenColor;
         }
     }
 }

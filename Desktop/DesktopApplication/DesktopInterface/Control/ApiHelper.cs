@@ -164,7 +164,15 @@ namespace DesktopInterface.Control
         {
             if (ApiClient == null)
                 return;
-            ApiClient.BaseAddress = new Uri(ApplicationConfiguration.IpAdress);
+            try 
+            {
+                ApiClient.BaseAddress = new Uri(ApplicationConfiguration.IpAdress);
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine(e.Message); 
+                return;
+            }
         }
     }
 }

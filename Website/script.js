@@ -3,7 +3,9 @@ var Measurements = [];
 
 var Config = {};
 
-var meas_url = "PHPScripts/GenerateSamples.php";
+var meas_url = "";
+
+var prefix_url = "";
 
 var set_data_choice = true;
 var set_chart_choice = true;
@@ -15,14 +17,15 @@ var t_chart = 0.0;
 
 function makeMatrix(row, col)
 {
-	$.get("PHPScripts/GenerateMatrix.php", function(data, status){
+	let matrix_url = 'https://' + prefix_url + 'get/Leds';
+	$.get(matrix_url, function(data, status){
 		let LEDlist = data;
 		for(let i=0; i < LEDlist.length; i++)
 		{
 			let RGBarray = LEDlist[i];
-			let R = RGBarray[0];
-			let G = RGBarray[1];
-			let B = RGBarray[2];
+			let R = RGBarray.r;
+			let G = RGBarray.g;
+			let B = RGBarray.b;
 			let colorcode = "#"+R.toString(16).padStart(2,'0')+G.toString(16).padStart(2,'0')+B.toString(16).padStart(2,'0');
 			//console.log(colorcode);
 			let element = $("<div>", {id: "led_"+i,
@@ -80,6 +83,12 @@ function setupChart()
 							display: true,
 							labelString: 'time[s]'
 							}
+						}],
+						yAxes: [{
+						  scaleLabel: {
+							display: true,
+							labelString: ''
+							}
 						}]
 					}     
 				}
@@ -97,6 +106,7 @@ function updateChart(sample_val, y_name, Tp_val)
 	MyChart.data.labels.push(t_chart.toFixed(2));
 	MyChart.data.datasets[0].data.push(sample_val);
 	MyChart.data.datasets[0].label = y_name;
+	MyChart.options.scales.yAxes[0].scaleLabel.labelString = $('#SelectUnit').val();
 	if(MyChart.data.labels.length >= 100)
 	{
 		MyChart.data.labels.splice(0,1);
@@ -208,6 +218,10 @@ async function updateConfiguration()
 	$('input[name="Tp"]').val(Config.Tp);
 	$('input[name="Count"]').val(Config.Count);
 	
+	prefix_url = Config.IP;
+	
+	meas_url = 'https://' + prefix_url +  'get/DataStructs';
+	
 	updateMeasurements();
 	
 }
@@ -305,14 +319,21 @@ window.onload = function()
 	});
 	
 	$('#SelectUnit').change(function(){
-		/*let temptable = [];
-		for(let sample of MyChart.data.datasets[0].data)
+		MyChart.data.datasets[0].data = [];
+		MyChart.data.labels = [];
+		t_chart = 0.0;
+		let temp_meas = [];
+		for(meas of Measurements)
 		{
-			sample = sample*2;
-			temptable.push(sample);
+			if($('#SelectChart').val() == meas.name) temp_meas.push({name: meas.name, unit: $('#SelectUnit').val()});
+			else temp_meas.push({name: meas.name, unit: meas.defaultUnit});
 		}
-		MyChart.data.datasets[0].data = temptable;*/
+		
+		let url_unit = 'https://' + prefix_url + 'post/DefaultUnits';
+		
+		$.post(url_unit, {text: temp_meas});
 	});
+	
 
 	$('#SamplingTime').change(function(){
 		if(this.value > 0)
@@ -349,10 +370,10 @@ window.onload = function()
 			G = rgb[1];
 			B = rgb[2];
 			IDofLED = led.id.split('_')[1];
-			MatrixResult.push({id: IDofLED, R: R, G: G, B: B});
+			MatrixResult.push({x: parseInt(IDofLED%8), y: parseInt(IDofLED/8), r: R, g: G, b: B});
 		}
 		
-		let url_matrix = 'PHPScripts/GetMatrix.php';
+		let url_matrix = 'https://' + prefix_url + 'post/Leds';
 		
 		$.post(url_matrix, {FinalMatrix: MatrixResult});
 		
@@ -365,10 +386,11 @@ window.onload = function()
 		for(let led of $('.LED'))
 		{
 			$(led).css('background-color','#000000');
-			MatrixResult.push({id: led.id.split('_')[1], R: 0, G: 0, B: 0});
+			IDofLED = led.id.split('_')[1];
+			MatrixResult.push({x: parseInt(IDofLED%8), y: parseInt(IDofLED/8), r: 0, g: 0, b: 0});
 		}
 		
-		let url_matrix = 'PHPScripts/GetMatrix.php';
+		let url_matrix = 'https://' + prefix_url + 'post/Leds';
 		
 		$.post(url_matrix, {FinalMatrix: MatrixResult});
 		

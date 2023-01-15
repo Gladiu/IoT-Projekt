@@ -8,7 +8,7 @@ namespace DesktopInterface.Control
 {
     public static class ApplicationConfiguration
     {
-        private static string ipAdress = "https:192.168.1.98";
+        private static string ipAdress = "http://192.168.1.98:5000";
 
         private static string port = "5000";
 
@@ -47,7 +47,7 @@ namespace DesktopInterface.Control
                 lines = File.ReadAllLines("AppConfiguration.json");
             }
             catch(Exception e) { Console.WriteLine(e.Message); }
-            if (lines != null) 
+            if (lines != null)
             {
                 Config? config = JsonConvert.DeserializeObject<Config>(lines[0]);
                 if (config != null) 

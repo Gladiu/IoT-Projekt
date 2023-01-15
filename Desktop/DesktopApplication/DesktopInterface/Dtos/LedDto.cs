@@ -36,9 +36,9 @@ namespace DesktopInterface.Dtos
         {
             x = led.x;
             y = led.y;
-            R = led.R.Value!;
-            G = led.G.Value!;
-            B = led.B.Value!;
+            R = led.R!.Value;
+            G = led.G!.Value;
+            B = led.B!.Value;
         }
     }
 }

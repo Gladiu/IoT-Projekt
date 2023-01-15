@@ -82,6 +82,36 @@ namespace DesktopInterface.Control
             }
         }
 
+        public static async Task<List<DataObject>?> GetDataObjectById(string ID)
+        {
+            if (ApiClient == null)
+            {
+                return null;
+            }
+            var requestUri = string.Format(CultureInfo.InvariantCulture, ApiRoutes.GetDataObject, ID);
+            try
+            {
+                using (HttpResponseMessage response = await ApiClient.GetAsync(requestUri))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var dat = await response.Content.ReadAsStringAsync();
+                        List<DataObject>? dataObjects = JsonSerializer.Deserialize<List<DataObject>>(dat);
+                        return dataObjects;
+                    }
+                    else
+                    {
+                        throw new Exception(response.ReasonPhrase);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Caught exception:{e.Message}");
+                return null;
+            }
+        }
+
         public static async Task<List<LedDto>?> GetLeds()
         {
             if (ApiClient == null)

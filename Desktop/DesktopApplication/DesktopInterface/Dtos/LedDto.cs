@@ -18,7 +18,8 @@ namespace DesktopInterface.Dtos
 
         public LedDto(int x, int y) 
         {
-            this.x = x; this.y = y;
+            this.x = x; 
+            this.y = y;
             R = 0;
             G = 0;
             B = 0;
@@ -26,7 +27,8 @@ namespace DesktopInterface.Dtos
 
         public LedDto(int x, int y, int r, int g, int b)
         {
-            this.x = x; this.y = y;
+            this.x = x; 
+            this.y = y;
             R = r;
             G = g;
             B = b;

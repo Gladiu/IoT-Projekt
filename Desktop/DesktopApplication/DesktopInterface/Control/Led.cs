@@ -32,6 +32,15 @@ namespace DesktopInterface.Control
             this.y = y;
         }
 
+        public Led(int x, int y, int r, int g, int b)
+        {
+            R = r;
+            G = g;
+            B = b;
+            this.x = x;
+            this.y = y;
+        }
+
         public Led(LedDto dto)
         {
             R = dto.R;

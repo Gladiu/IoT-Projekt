@@ -5,6 +5,8 @@ namespace DesktopInterface.Control
     {
         internal static string GetDataObjects = "get/DataObjects";
 
+        internal static string GetDataObject = "get/DataObjects?ID={0}";
+
         internal static string GetDataStructs = "get/DataStructs";
 
         internal static string GetLeds = "get/Leds";

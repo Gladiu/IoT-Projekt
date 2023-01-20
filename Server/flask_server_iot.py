@@ -5,15 +5,16 @@ from urllib.request import urlopen
 import json, random
 import subprocess
 
-from sense_emu import SenseHat
+from sense_hat import SenseHat
 sense = SenseHat()
 
 app = fsk.Flask(__name__)
 
 headers = {'Content-Type': 'application/json'}
 
+script_path = '/home/pi/IoT-Projekt/Server/'
 global_DataStructure = []
-with open('global_DataStructure.json', 'r') as f:
+with open(script_path + 'global_DataStructure.json', 'r') as f:
     global_DataStructure = json.load(f)
 
 
@@ -30,12 +31,13 @@ def change_def_units(units_to_change):
 
 @app.route('/get/DataStructs', methods=['GET'])
 def get_data_structs():
+    headers = {'Content-Type': 'application/json'}
     data = global_DataStructure
     data = json.dumps(data)
-    data = subprocess.check_output(['python', 'process_temperature.py', data])
-    data = subprocess.check_output(['python', 'process_pressure.py', data])
-    data = subprocess.check_output(['python', 'process_humidity.py', data])
-    data = subprocess.check_output(['python', 'process_orientation.py', data])
+    data = subprocess.check_output(['python3', script_path + 'process_temperature.py', data])
+    data = subprocess.check_output(['python3', script_path + 'process_pressure.py', data])
+    data = subprocess.check_output(['python3', script_path + 'process_humidity.py', data])
+    data = subprocess.check_output(['python3', script_path + 'process_orientation.py', data])
     
     return make_response(data, headers)  
 
@@ -122,7 +124,11 @@ def get_leds():
 def post_led_colors():
     try:
         data = fsk.request.get_json()
-        # data = []
+        if data == None:
+            data = fsk.request.get_data()
+            data = json.loads(data)
+        print(data)
+	    # data = []
         # with open('led.json', 'r') as f:
         #     data = json.load(f)
         for led_data in data:
@@ -159,4 +165,4 @@ def hello():
     return make_response('Witaj świecie!', headers) 
 
 if __name__ == '__main__':
-    app.run(host='192.168.31.145', debug=False)
+    app.run(host='192.168.1.230', debug=False)

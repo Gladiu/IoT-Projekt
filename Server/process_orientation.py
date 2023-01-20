@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import json
 import sys
-from sense_emu import SenseHat
+from sense_hat import SenseHat
 
 sense = SenseHat()
 orientation = sense.get_orientation()

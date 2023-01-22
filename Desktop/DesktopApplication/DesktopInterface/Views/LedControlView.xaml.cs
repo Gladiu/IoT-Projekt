@@ -22,10 +22,6 @@ namespace DesktopInterface.Views
     /// </summary>
     public partial class LedControlView : UserControl
     {
-        public readonly static SolidColorBrush RedColor = new SolidColorBrush(Color.FromArgb(255, 255, 64, 14));
-
-        public readonly static SolidColorBrush GreenColor = new SolidColorBrush(Color.FromArgb(255, 41, 142, 19));
-
         public LedControlView()
         {
             InitializeComponent();
@@ -38,17 +34,17 @@ namespace DesktopInterface.Views
 
         private void GridData_GotMouseCapture(object sender, MouseEventArgs e)
         {
-            SendCommand.Background = RedColor;
+            SendCommand.Background = BrushColors.RedColor;
         }
 
         private void SendCommand_Click(object sender, RoutedEventArgs e)
         {
-            SendCommand.Background = GreenColor;
+            SendCommand.Background = BrushColors.GreenColor;
         }
 
         private void ClearCommand_Click(object sender, RoutedEventArgs e)
         {
-            SendCommand.Background = GreenColor;
+            SendCommand.Background = BrushColors.GreenColor;
         }
 
         public void InitializeGrid() 

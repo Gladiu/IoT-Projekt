@@ -1,6 +1,8 @@
-﻿using System;
+﻿using DesktopInterface.Control;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +25,31 @@ namespace DesktopInterface.Views
         public EntryView()
         {
             InitializeComponent();
+        }
+
+        private async void Test_Click(object sender, RoutedEventArgs e)
+        {
+            await SetTestButtonColor();
+        }
+
+        private async Task<SolidColorBrush> TestApiConnection() 
+        {
+            var result = await ApiHelper.GetDataStructsList();
+            if (result == null)
+                return BrushColors.RedColor;
+            else
+                return BrushColors.GreenColor;
+        }
+
+        private async Task SetTestButtonColor() 
+        {
+            var result = await TestApiConnection();
+            Test.Background = result;
+        }
+
+        private async void Test_Loaded(object sender, RoutedEventArgs e)
+        {
+            await SetTestButtonColor();
         }
     }
 }

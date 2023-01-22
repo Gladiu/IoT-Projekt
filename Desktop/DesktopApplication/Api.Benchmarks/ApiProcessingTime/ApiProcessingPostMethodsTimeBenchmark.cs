@@ -14,11 +14,11 @@ namespace Api.Benchmarks.ApiProcessingTime
 
         private readonly List<LedDto> _ledDto = new List<LedDto>();
 
+        [Params(5, 10, 15)]
+        public int RequestsCount;
+
         [Params(1, 10, 64)]
         public int Size;
-
-        [Params(1, 3, 5)]
-        public int RequestsCount;
 
         [GlobalSetup]
         public void Setup()
@@ -33,7 +33,7 @@ namespace Api.Benchmarks.ApiProcessingTime
         }
 
         [Benchmark]
-        public async Task ProcessGetDataObjectByIdBenchmark()
+        public async Task ProcessPostLedsBenchmark()
         {
             for (int i = 0; i < RequestsCount; i++)
                 await ApiHelper.PostLeds(_ledDto);

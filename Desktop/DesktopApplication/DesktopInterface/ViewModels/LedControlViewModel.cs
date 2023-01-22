@@ -55,7 +55,7 @@ namespace DesktopInterface.ViewModels
             ButtonMatrixGrid = new Grid();
             ButtonMatrixGrid.Visibility = Visibility.Visible;
             _leds = new List<List<LedViewModel>>();
-            if (WindowViewModel.Leds.Count == 64)
+            if (WindowViewModel.Leds!.Count == 64)
             {
                 for (int x = 0; x < DisplaySizeX; x++)
                 {

@@ -133,7 +133,7 @@ namespace DesktopInterface.ViewModels
                 {
                     for (int i = 0; i < SelectedUnit?.Count; i++)
                     {
-                        WindowViewModel.DataTypes[i]!.defaultUnit = SelectedUnit[i];
+                        WindowViewModel.DataTypes![i].defaultUnit = SelectedUnit[i];
                     }
                 }
             });

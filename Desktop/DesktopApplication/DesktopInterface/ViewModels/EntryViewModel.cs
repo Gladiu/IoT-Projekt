@@ -106,6 +106,7 @@ namespace DesktopInterface.ViewModels
             ApplicationConfiguration.SaveConfiguration();
             WindowViewModel.UpdateDataTypes();
             WindowViewModel.UpdateLeds();
+            ApiHelper.UpdateApiClient();
         }
 
         public void LoadSettings() 

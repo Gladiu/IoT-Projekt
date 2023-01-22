@@ -13,7 +13,7 @@ namespace Api.Benchmarks.ApiProcessingTime
 
         private readonly Uri _baseRequestUri = new Uri("http://192.168.1.98:5000");
 
-        [Params(1, 10, 20)]
+        [Params(5, 10, 15)]
         public int N;
 
         [GlobalSetup]

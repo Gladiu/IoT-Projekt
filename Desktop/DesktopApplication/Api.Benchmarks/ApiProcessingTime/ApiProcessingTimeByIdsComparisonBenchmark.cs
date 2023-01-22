@@ -20,7 +20,7 @@ namespace Api.Benchmarks.ApiProcessingTime
 
         private readonly Uri _baseRequestUri = new Uri(_url);
 
-        [Params(1, 10)]
+        [Params(5, 10, 15)]
         public int N;
 
         [GlobalSetup]

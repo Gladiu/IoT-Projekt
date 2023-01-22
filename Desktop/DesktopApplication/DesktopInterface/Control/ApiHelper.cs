@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace DesktopInterface.Control
 {
@@ -41,7 +42,7 @@ namespace DesktopInterface.Control
                     }
                     else
                     {
-                        throw new Exception(response.ReasonPhrase);
+                        return null;
                     }
                 }
             }
@@ -66,12 +67,11 @@ namespace DesktopInterface.Control
                     {
                         var dat = await response.Content.ReadAsStringAsync();
                         List<DataObject>? dataObjects = JsonSerializer.Deserialize<List<DataObject>>(dat);
-                        //List<DataObject> dataObjects = await response.Content.ReadFromJsonAsync<List<DataObject>>();
                         return dataObjects;
                     }
                     else
                     {
-                        throw new Exception(response.ReasonPhrase);
+                        return null;
                     }
                 }
             }
@@ -101,7 +101,7 @@ namespace DesktopInterface.Control
                     }
                     else
                     {
-                        throw new Exception(response.ReasonPhrase);
+                        return null;
                     }
                 }
             }
@@ -130,7 +130,7 @@ namespace DesktopInterface.Control
                     }
                     else
                     {
-                        throw new Exception(response.ReasonPhrase);
+                        return null;
                     }
                 }
             }
@@ -148,8 +148,7 @@ namespace DesktopInterface.Control
             try
             {
                 var requestUri = string.Format(CultureInfo.InvariantCulture, ApiRoutes.PostLeds);
-                //var requestData = new FormUrlEncodedContent(data);
-                var result = await ApiClient.PostAsJsonAsync(requestUri, data);
+                var result = await ApiClient!.PostAsJsonAsync(requestUri, data);
                 responseText = await result.Content.ReadAsStringAsync();
             }
             catch (Exception e)
@@ -179,7 +178,7 @@ namespace DesktopInterface.Control
                     }
                     else
                     {
-                        throw new Exception(response.ReasonPhrase);
+                        return null;
                     }
                 }
             }
@@ -190,19 +189,41 @@ namespace DesktopInterface.Control
             }
         }
 
-        public static void UpdateApiClient() 
+        public static void UpdateApiClient()
         {
             if (ApiClient == null)
                 return;
             try 
             {
+                ApiClient.Dispose();
+                InitializeClient();
                 ApiClient.BaseAddress = new Uri(ApplicationConfiguration.IpAdress);
+                ApiClient.Timeout = TimeSpan.FromSeconds(2);
             }
             catch (Exception e) 
             {
                 Console.WriteLine(e.Message); 
                 return;
             }
+        }
+
+        public async static Task<string?> TestApiConnection() 
+        {
+            string? responseText = null;
+
+            try
+            {
+                var requestUri = string.Format(CultureInfo.InvariantCulture, ApiRoutes.TestApiConnection);
+                var result = await ApiClient!.GetAsync(requestUri);
+                responseText = await result.Content.ReadAsStringAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("NETWORK ERROR");
+                Debug.WriteLine(e);
+            }
+
+            return responseText;
         }
     }
 }

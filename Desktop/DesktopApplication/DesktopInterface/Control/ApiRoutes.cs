@@ -14,5 +14,7 @@ namespace DesktopInterface.Control
         internal static string PostLeds = "post/Leds";
 
         internal static string PostDefaultUnits = "post/DefaultUnits";
+
+        internal static string TestApiConnection = "test";
     }
 }

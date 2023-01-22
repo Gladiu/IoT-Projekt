@@ -4,6 +4,9 @@ using DataTypes;
 using DesktopInterface.Control;
 using System.Net;
 using DesktopInterface.Models;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls.Primitives;
 
 namespace DesktopInterface.ViewModels
 {
@@ -13,7 +16,7 @@ namespace DesktopInterface.ViewModels
 
         public static List<Led>? Leds = new List<Led>();
 
-        private string _activeTab = "Entry";
+        private string _activeTab = "None";
 
         public string ActiveTab
         {
@@ -29,15 +32,13 @@ namespace DesktopInterface.ViewModels
         }
         public WindowViewModel()
         {
-            UpdateDataTypes();
-
+            InitDataTypes();
             UpdateLeds();
-
-            LoadEntryView("Entry");
+            LoadEntryView(ActiveTab);
         }
         public bool CanLoadEntryView(string activeTab) 
         {
-            return activeTab != "Entry";
+            return activeTab != "Entry" && activeTab != "None";
         }
         public void LoadEntryView(string activeTab)
         {
@@ -52,7 +53,7 @@ namespace DesktopInterface.ViewModels
         }
         public bool CanLoadDataGridView(string activeTab)
         {
-            return activeTab != "Data";
+            return activeTab != "Data" && activeTab != "None";
         }
         public void LoadDataGridView(string activeTab) 
         {
@@ -67,7 +68,7 @@ namespace DesktopInterface.ViewModels
         }
         public bool CanLoadChartView(string activeTab) 
         {
-            return activeTab != "Chart";
+            return activeTab != "Chart" && activeTab != "None";
         }
         public void LoadChartView(string activeTab) 
         {
@@ -82,7 +83,7 @@ namespace DesktopInterface.ViewModels
         }
         public bool CanLoadLedControlView(string activeTab)
         {
-            return activeTab != "LED";
+            return activeTab != "LED" && activeTab != "None";
         }
         public void LoadLedControlView(string activeTab)
         {
@@ -93,6 +94,19 @@ namespace DesktopInterface.ViewModels
                 {
                     ActiveTab = "LED";
                 }
+            });
+        }
+
+        private void InitDataTypes() 
+        {
+            ApiHelper.GetDataStructsList().ContinueWith(task =>
+            {
+                if (task.Result == null) 
+                {
+                    ActiveTab = "None";
+                    PopUpError();
+                }
+                DataTypes = task.Result;
             });
         }
 
@@ -116,6 +130,11 @@ namespace DesktopInterface.ViewModels
                     }
                 }
             });
+        }
+
+        private void PopUpError() 
+        {
+            MessageBox.Show("Wrong API IP. Check IP, save settings and then relaunch application!", "Invalid IP!", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

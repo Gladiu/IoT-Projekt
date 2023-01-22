@@ -129,7 +129,7 @@ namespace DesktopInterface.ViewModels
 
         private void UpdateData()
         {
-            ApiHelper.GetDataObjectById(SelectedType).ContinueWith(task =>
+            ApiHelper.GetDataObjectById(SelectedType!).ContinueWith(task =>
             {
                 if (task.Result == null)
                     return;

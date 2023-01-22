@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/menu">
+
+    <fragment
+        android:id="@+id/menu"
+        android:name="com.example.lab7.menu"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_menu_to_graph"
+            app:destination="@id/graph" />
+        <action
+            android:id="@+id/action_menu_to_LEDFragment"
+            app:destination="@id/LEDFragment" />
+        <action
+            android:id="@+id/action_menu_to_rawData"
+            app:destination="@id/rawData" />
+        <action
+            android:id="@+id/action_menu_to_settingsViewModel"
+            app:destination="@id/settingsViewModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/graph"
+        android:name="com.example.lab7.GraphViewModel"
+        android:label="fragment_graph"
+        tools:layout="@layout/fragment_graph" >
+        <action
+            android:id="@+id/action_graph_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/LEDFragment"
+        android:name="com.example.lab7.LEDViewModel"
+        android:label="fragment_led"
+        tools:layout="@layout/fragment_led" >
+        <action
+            android:id="@+id/action_LEDFragment_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/rawData"
+        android:name="com.example.lab7.RawDataViewModel"
+        android:label="fragment_rawdata"
+        tools:layout="@layout/fragment_raw_data" >
+        <action
+            android:id="@+id/action_rawData_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsViewModel"
+        android:name="com.example.lab7.SettingsViewModel"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsViewModel_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+</navigation>

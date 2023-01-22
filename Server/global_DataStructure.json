@@ -1,0 +1,29 @@
+[{"name":"temperature",
+    "value":0.9,
+    "defaultUnit":"C",
+    "units":["C","F"]},
+
+{"name":"pressure",
+    "value":1014.7,
+    "defaultUnit":"hPa",
+    "units":["hPa","mmHg"]},
+
+{"name":"humidity",
+    "value":34.99,
+    "defaultUnit":"%",
+    "units":["%","number"]},
+
+{"name":"roll",
+    "value":21.88,
+    "defaultUnit":"deg",
+    "units":["deg","rad"]},
+
+{"name":"pitch",
+    "value":-55.22,
+    "defaultUnit":"deg",
+    "units":["deg","rad"]},
+    
+{"name":"yaw",
+    "value":109.25,
+    "defaultUnit":"deg",
+    "units":["deg","rad"]}]

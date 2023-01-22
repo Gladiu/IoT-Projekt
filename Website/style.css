@@ -235,3 +235,21 @@ table#DataTable > tr > td
 	background-color: black;
 	float: left;
 }
+
+#SendUnits
+{
+	color: white;
+	background-color: #009900;
+	font-size: 20px;
+	border: 2px solid #111111;
+	margin-left: 25px;
+	float: left;
+	width: 165px;
+}
+
+#SendUnits:hover
+{
+	cursor: pointer;
+	color: #EEEEEE;
+	background-color: #00AA00;
+}

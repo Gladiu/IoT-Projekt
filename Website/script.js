@@ -3,9 +3,7 @@ var Measurements = [];
 
 var Config = {};
 
-var meas_url = "";
-
-var prefix_url = "";
+var meas_url = "PHPScripts/GenerateSamples.php";
 
 var set_data_choice = true;
 var set_chart_choice = true;
@@ -17,15 +15,14 @@ var t_chart = 0.0;
 
 function makeMatrix(row, col)
 {
-	let matrix_url = 'https://' + prefix_url + 'get/Leds';
-	$.get(matrix_url, function(data, status){
+	$.get("PHPScripts/GenerateMatrix.php", function(data, status){
 		let LEDlist = data;
 		for(let i=0; i < LEDlist.length; i++)
 		{
 			let RGBarray = LEDlist[i];
-			let R = RGBarray.r;
-			let G = RGBarray.g;
-			let B = RGBarray.b;
+			let R = RGBarray[0];
+			let G = RGBarray[1];
+			let B = RGBarray[2];
 			let colorcode = "#"+R.toString(16).padStart(2,'0')+G.toString(16).padStart(2,'0')+B.toString(16).padStart(2,'0');
 			//console.log(colorcode);
 			let element = $("<div>", {id: "led_"+i,
@@ -189,6 +186,174 @@ function updateData()
 	}
 }
 
+function setupChartHTML()
+{
+	let choice = '';
+	
+	if(set_unit_choice)
+	{
+		$('#SelectUnit').find('option').remove();
+		setupChart();
+	}
+	
+	for(let measurement of Measurements)
+	{
+		//console.log(measurement);
+		let name = measurement.name; 
+		let value = measurement.value; 
+		let defaultUnit = measurement.defaultUnit;
+		let units = measurement.units;
+		
+		choice = choice + '<tr><td align="right">' + name + '</td>' + '<td align="left"><select class="Chosen" name="unit_' + name + '">';
+		if(set_chart_choice)
+		{
+			$('#SelectChart').append($('<option>', {
+				value: name,
+				text: name
+			}));
+		}
+		for(let un of units)
+		{
+			choice = choice + '<option value="' + un + '">' + un + '</option>';
+			if(set_unit_choice && name == $('#SelectChart').val())
+			{
+				$('#SelectUnit').append($('<option>', {
+					value: un,
+					text: un
+				}));
+			}
+		}
+		choice = choice + '</select></td></tr>';
+		
+		let add_unit = defaultUnit;
+		if($('select[name=unit_' + name + ']').val())
+		{
+			add_unit = $('select[name=unit_' + name + ']').val();
+		}
+		
+		if($('#SelectChart').val() == name)
+		{
+			updateChart(value, name, Config.Tp);
+		}
+	}
+	
+	set_chart_choice = false;
+	set_unit_choice = false;
+	
+	if(set_data_choice && $('#UnitsChoice').length > 0)
+	{
+		$('#UnitsChoice').html(choice);
+		set_data_choice = false;
+	}
+}
+
+function updateDataChart()
+{
+	for(let measurement of Measurements)
+	{
+		let name = measurement.name; 
+		let value = measurement.value;
+		
+		if($('#SelectChart').val() == name)
+		{
+			updateChart(value, name, Config.Tp);
+		}
+	}
+}
+
+function updateDataData()
+{
+	for(let measurement of Measurements)
+	{
+		let name = measurement.name; 
+		let value = measurement.value;
+		let unit = measurement.unit;
+		
+		$('[name=value_'+name+']').html(value);
+		$('[name=u_'+name+']').html(unit);
+	}
+}
+
+function setupDataHTML()
+{
+	let main = '<tr><td align="left" class="mainTab">name</td><td align="left" class="mainTab">value</td><td align="left" class="mainTab">unit</td></tr>';
+	let choice = '';
+	let adds = '';
+	
+	for(let measurement of Measurements)
+	{
+		//console.log(measurement);
+		let name = measurement.name; 
+		let value = measurement.value; 
+		let defaultUnit = measurement.defaultUnit;
+		let units = measurement.units;
+		
+		choice = choice + '<tr><td align="right">' + name + '</td>' + '<td align="left"><select class="Chosen" name="unit_' + name + '">';
+		
+		for(let un of units)
+		{
+			choice = choice + '<option value="' + un + '">' + un + '</option>';
+		}
+		choice = choice + '</select></td></tr>';
+		
+		let add_unit = defaultUnit;
+		if($('select[name=unit_' + name + ']').val())
+		{
+			add_unit = $('select[name=unit_' + name + ']').val();
+		}
+		
+		adds = '<tr><td align="left" class="MeasureCell">' + name + '</td>' + '<td align="left" class="MeasureCell" name="value_' + name + '">' + value + '</td>' + '<td align="left" class="MeasureCell" name="u_' + name + '">' + add_unit + '</td></tr>';
+		
+		main = main + adds;
+	}
+	//console.log(main);
+	
+	set_unit_choice = false;
+	
+	$('#DataTable').html(main);
+	
+	if(set_data_choice && $('#UnitsChoice').length > 0)
+	{
+		$('#UnitsChoice').html(choice);
+		set_data_choice = false;
+	}
+}
+
+function updateMeasChart()
+{
+	if($('#SelectUnit').val())
+	{
+		let chart_url = "PHPScripts/NewSample.php?ID=";
+		chart_url = chart_url + $('#SelectChart').val();
+		console.log(chart_url);
+		
+		$.ajax(meas_url, {
+			type: 'GET', dataType: 'json',
+			success: function(measure, status, xhr){
+				Measurements = measure;
+				updateDataChart();
+			}
+			});
+	}
+	setTimeout("updateMeasChart()", 1000*Config.Tp);
+}
+
+function updateMeasData()
+{
+	let data_url = "PHPScripts/NewSample.php";
+	console.log(data_url);
+	
+	$.ajax(data_url, {
+		type: 'GET', dataType: 'json',
+		success: function(measure, status, xhr){
+			Measurements = measure;
+			updateDataData();
+		}
+		});
+		
+	setTimeout("updateMeasData()", 1000*Config.Tp);
+}
+
 function updateMeasurements()
 {
 	$.ajax(meas_url, {
@@ -204,25 +369,55 @@ function updateMeasurements()
 		setTimeout("updateMeasurements()", 1000*Config.Tp);
 }
 
+function setChart()
+{
+	$.ajax(meas_url, {
+		type: 'GET', dataType: 'json',
+		success: function(measure, status, xhr){
+			Measurements = measure;
+			setupChartHTML();
+		}
+		});
+}
+
+function setData()
+{
+	$.ajax(meas_url, {
+		type: 'GET', dataType: 'json',
+		success: function(measure, status, xhr){
+			Measurements = measure;
+			setupDataHTML();
+		}
+		});
+}
+
+
 async function updateConfiguration()
 {
 	const res = await fetch('PHPScripts/configuration.json');
 	
 	Config = await res.json();
 	
-	//console.log(Config);
-	//console.log(Config.Tp);
 	$('input[name="IP"]').val(Config.IP);
 	$('input[name="Port"]').val(Config.Port);
 	$('input[name="API"]').val(Config.API);
 	$('input[name="Tp"]').val(Config.Tp);
 	$('input[name="Count"]').val(Config.Count);
 	
-	prefix_url = Config.IP;
 	
-	meas_url = 'https://' + prefix_url +  'get/DataStructs';
+	//updateMeasurements();
 	
-	updateMeasurements();
+	if($('#SelectChart').length > 0)
+	{
+		setChart();
+		updateMeasChart();
+	}
+	
+	if($('#DataTable').length > 0)
+	{
+		setData();
+		updateMeasData();
+	}
 	
 }
 
@@ -316,6 +511,7 @@ window.onload = function()
 		MyChart.data.labels = [];
 		t_chart = 0.0;
 		set_unit_choice = true;
+		setChart();
 	});
 	
 	$('#SelectUnit').change(function(){
@@ -329,7 +525,7 @@ window.onload = function()
 			else temp_meas.push({name: meas.name, unit: meas.defaultUnit});
 		}
 		
-		let url_unit = 'https://' + prefix_url + 'post/DefaultUnits';
+		let url_unit = 'PHPScripts/PostUnit.php';
 		
 		$.post(url_unit, {text: temp_meas});
 	});
@@ -373,7 +569,7 @@ window.onload = function()
 			MatrixResult.push({x: parseInt(IDofLED%8), y: parseInt(IDofLED/8), r: R, g: G, b: B});
 		}
 		
-		let url_matrix = 'https://' + prefix_url + 'post/Leds';
+		let url_matrix = 'PHPScripts/GetMatrix.php';
 		
 		$.post(url_matrix, {FinalMatrix: MatrixResult});
 		
@@ -386,14 +582,26 @@ window.onload = function()
 		for(let led of $('.LED'))
 		{
 			$(led).css('background-color','#000000');
-			IDofLED = led.id.split('_')[1];
-			MatrixResult.push({x: parseInt(IDofLED%8), y: parseInt(IDofLED/8), r: 0, g: 0, b: 0});
+			MatrixResult.push({id: led.id.split('_')[1], R: 0, G: 0, B: 0});
 		}
 		
-		let url_matrix = 'https://' + prefix_url + 'post/Leds';
+		let url_matrix = 'PHPScripts/GetMatrix.php';
 		
 		$.post(url_matrix, {FinalMatrix: MatrixResult});
 		
+	});
+	
+	$('#SendUnits').click(function(){
+		let temp_meas = [];
+		for(let ch of $('.Chosen'))
+		{
+			let meas_name = ch.name.split('_')[1];
+			let meas_unit = ch.value;
+			temp_meas.push({name: meas_name, unit: meas_unit});
+		}
+		let url_unit = 'PHPScripts/PostUnit.php';
+		
+		$.post(url_unit, {text: temp_meas});
 	});
 	
 }

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DesktopInterface": {
+      "commandName": "Project"
+    },
+    "RunAll": {
+      "commandName": "Project"
+    }
+  }
+}

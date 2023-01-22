@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DataTypes": {
+      "commandName": "Project"
+    },
+    "DesktopInterface": {
+      "commandName": "Project"
+    }
+  }
+}
